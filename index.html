@@ -57,7 +57,7 @@ body {
 </style>
 
 
-<div style="position:fixed;text-align:center;left:0;top:10px;font-size:40px;width:100%;">BLACK 2057 - v1</div>
+<div style="position:fixed;text-align:center;left:0;top:10px;font-size:40px;width:100%;">BLACK 2057 - v2</div>
 
 <div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
 
@@ -127,14 +127,11 @@ function updatePosition(){
 
 
 function playerMove(){
-    timer_walking = setInterval(function(){
-        if (screen_width_half < cursor_x) {
-            moveRight();
-        } else {
-            moveLeft();
-        }
-
-    }, 1);
+    if (screen_width_half < cursor_x) {
+        moveRight();
+    } else {
+        moveLeft();
+    }
 }
 
 function playerStop(){
@@ -147,8 +144,10 @@ $(function () {
     $('#map').css('left', scroll_x);
 
     $('#game').mousedown(function (e) {
-        cursor_x = e.pageX;
-        playerMove(cursor_x);
+        timer_walking = setInterval(function(){
+            cursor_x = e.pageX;
+            playerMove(cursor_x);
+        }, 1);
     });
 
     
@@ -162,11 +161,12 @@ $(function () {
         playerMove(cursor_x);
     });
 
-    
+    /*
     $('#game').touchend(function(e){
         playerStop();
 
     });
+    */
 
 });
 </script>
