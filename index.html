@@ -63,7 +63,7 @@ body {
 
     <div style="overflow-x:hidden;width:100%;">
 
-        <div id="map" style="position:fixed;bottom:0;left:0;opacity:0.4;background:url('https://media.istockphoto.com/vectors/night-skyscrapers-city-vector-id841828528?s=170667a');background-size:auto 100%;width:20000px;height:400px;">
+        <div id="map" style="position:fixed;left:0;top:0;opacity:0.4;background:url('https://media.istockphoto.com/vectors/night-skyscrapers-city-vector-id841828528?s=170667a');background-position:left bottom;background-repeat:repeat-x;background-size:auto 50%;width:20000px;height:100%;">
 
         </div>
 
@@ -131,12 +131,16 @@ $(function () {
     $('#map').css('left', scroll_x);
 
 
-    if (screen_width > 800) {
+
 
         $('#game').mousedown(function (e) {
 
-            cursor_x = e.pageX;
 
+            if (screen_width > 800) {
+                cursor_x = e.pageX;
+            }else{
+                cursor_x = e.originalEvent.touches[0].pageX;
+            }
 
     
             timer_walking = setInterval(function(){
@@ -169,7 +173,7 @@ $(function () {
             $('#game').mouseup(e);
 
         });
-    }
+
 });
 </script>
     
