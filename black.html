@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black 2057 Game</title>
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+
+
+
+<style>
+* {
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Old versions of Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                    supported by Chrome, Edge, Opera and Firefox */
+}
+
+
+body {
+    background:black;
+    overflow-x:hidden;
+    touch-action: pan-x pan-y;
+}
+
+.flip-horizontal {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    -ms-filter: fliph;
+    /*IE*/
+    filter: fliph;
+    /*IE*/
+}
+
+.invert { 
+    -webkit-filter: invert(100%);
+    filter: invert(100%);
+}
+
+.player_normal{
+    background-image: url('static/normal.png');
+}
+
+.player_walking{
+    background-image: url('static/walking.gif');
+}
+
+
+.building{
+    display:block;
+    background-size:contain;
+    background-position:center bottom;
+    background-repeat:no-repeat;
+}
+
+
+/* responsive */
+
+@media screen and (min-width: 480px) {
+    .building{
+        position:relative;
+        margin-bottom:-20px;
+        width:600px;
+        height:500px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .building{
+        width:200px;
+        height:200px;
+    }
+}
+
+</style>
+
+
+<!--
+<div style="position:fixed;text-align:center;left:0;top:10px;font-size:40px;width:100%;">BLACK 2057 - v4</div>
+-->
+
+<div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
+
+
+    <table style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0">
+        <tr>
+            <td width="25%" align="center" bgcolor="white">
+                <img src="static/bridge3.png" width="20">
+            </td>
+            <td width="25%" align="center" bgcolor="white">
+                <img src="static/house2.png" width="20">
+            </td>
+            <td width="25%" align="center" bgcolor="white">
+                <img src="static/park2.png" width="20">
+            </td>
+            <td width="25%" align="center" bgcolor="white">
+                <img src="static/factory.png" width="20">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" style="padding:0;border-spacing:0;background:black;padding:1px;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>    
+                        <td width="0%" id="percent1" bgcolor="#efefef" style="height:20px;border-right:5px red solid;">&nbsp;</td>
+                        <td width="100%" id="percent2" bgcolor="#efefef">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <div style="overflow-x:hidden;width:100%;">
+
+        <div id="map" class="invert" style="position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
+        
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="text-align:center;height:100%;font-size:50px;">
+                <tr>
+                    <td width="20%">&nbsp;</td>
+                    <td width="20%" valign="bottom">
+                        <div style="background-image:url('static/bridge3.png')" class="building " ></div>
+                    </td>
+                    <td width="20%" valign="bottom">
+                        <div style="background-image:url('static/house2.png')" class="building " ></div>
+                    </td>
+                    <td width="20%" valign="bottom">
+                        <div style="background-image:url('static/park2.png')" class="building " ></div>
+                    </td>
+                    <td width="20%" valign="bottom">
+                        <div style="background-image:url('static/factory.png')" class="building " ></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="player" class="player_normal" style="margin-bottom:-2px;position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
+        
+
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+
+<script src="https://code.jquery.com/mobile/1.5.0-rc1/jquery.mobile-1.5.0-rc1.min.js"></script>
+
+
+<script>
+var screen_width = $(document).width();
+var screen_height = $(document).height();
+var screen_width_half = screen_width / 2;
+var scroll_x = 0;//-200;
+var cursor_x;
+var timer_walking;
+var max_width = 3000;
+var percent = 0;
+var speed = 1.5;
+var click_seconds = 0;
+
+function moveLeft(){
+    
+
+    $('#player').addClass('flip-horizontal');
+
+    if( scroll_x >= 0 ) return;
+
+    scroll_x += speed;
+    updatePosition();
+}
+
+function moveRight(){
+
+    
+
+    if( max_width <= (scroll_x*-1) ) return;
+
+    $('#player').removeClass('flip-horizontal');
+
+
+
+    scroll_x -= speed;
+
+
+
+    updatePosition();
+}
+
+function updatePosition(){
+
+
+    $('#player').addClass('player_walking').removeClass('player_normal');
+
+    $('#map').css('left', scroll_x);
+
+
+
+    percent = (scroll_x * 100) / max_width;
+
+    if( percent < 0 ) percent *= -1;
+    
+    
+    
+    $('#percent1').css('width', percent + '%');
+    $('#percent2').css('width', (100 - percent) + '%');
+
+}
+
+
+function playerMove(){
+    clearInterval(timer_walking);
+    timer_walking = setInterval(function(){
+
+        click_seconds++;
+
+        if( click_seconds > 200 ){
+            //speed = 2;
+        }
+
+        if (screen_width_half < cursor_x) {
+            moveRight();
+        } else {
+            moveLeft();
+        }
+
+    }, 1);
+}
+
+function playerStop(){
+    clearInterval(timer_walking);
+
+    speed = 1;
+    click_seconds = 0;
+
+    $('#player').removeClass('player_walking').addClass('player_normal');
+}
+
+$(function () {
+
+
+    updatePosition();
+    playerStop();
+
+    $('#map').css('width', (max_width + 1000) );//.css('height', screen_height);
+
+
+    $('#game').mousedown(function (e) {
+        cursor_x = e.pageX;
+        playerMove(cursor_x);
+    });
+
+    
+    $('#game').mouseup(function (e) {
+        playerStop();
+    }); 
+
+
+    $('#game').touchstart(function(e){
+        cursor_x = e.originalEvent.touches[0].pageX;
+        playerMove(cursor_x);
+    });
+
+    
+    $('#game').touchend(function(e){
+        playerStop();
+
+    });
+
+
+
+
+});
+</script>
+    
+    
+</body>
+</html>
