@@ -125,74 +125,48 @@ function updatePosition(){
 
 }
 
+
+function playerMove(){
+    timer_walking = setInterval(function(){
+        if (screen_width_half < cursor_x) {
+            moveRight();
+        } else {
+            moveLeft();
+        }
+
+    }, 1);
+}
+
+function playerStop(){
+    clearInterval(timer_walking);
+}
+
 $(function () {
 
 
     $('#map').css('left', scroll_x);
 
-
-
-
-        $('#game').mousedown(function (e) {
-
-
-            if (screen_width > 800) {
-                cursor_x = e.pageX;
-            }else{
-                cursor_x = e.originalEvent.touches[0].pageX;
-            }
+    $('#game').mousedown(function (e) {
+        cursor_x = e.pageX;
+        playerMove(cursor_x);
+    });
 
     
-            timer_walking = setInterval(function(){
+    $('#game').mouseup(function (e) {
+        playerStop();
+    }); 
 
 
-                if (screen_width_half < cursor_x) {
-                    moveRight();
-                } else {
-                    moveLeft();
-                }
-
-            }, 1);
-
-        });
-
-        
-        $('#game').mouseup(function (e) {
-            clearInterval(timer_walking);
-        }); 
-
-
-        $('#game').touchstart(function(e){
-
-            //$('#game').mousedown(e);
-
-
-            
-            if (screen_width > 800) {
-                cursor_x = e.pageX;
-            }else{
-                cursor_x = e.originalEvent.touches[0].pageX;
-            }
+    $('#game').touchstart(function(e){
+        cursor_x = e.originalEvent.touches[0].pageX;
+        playerMove(cursor_x);
+    });
 
     
-            timer_walking = setInterval(function(){
+    $('#game').touchend(function(e){
+        playerStop();
 
-
-                if (screen_width_half < cursor_x) {
-                    moveRight();
-                } else {
-                    moveLeft();
-                }
-
-            }, 1);
-
-        });
-
-        
-        $('#game').touchend(function(e){
-            $('#game').mouseup(e);
-
-        });
+    });
 
 });
 </script>
