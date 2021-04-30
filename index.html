@@ -53,6 +53,14 @@ body {
     /*IE*/
 }
 
+.player_normal{
+    background-image: url('static/normal.png');
+}
+
+.player_walking{
+    background-image: url('static/walking.gif');
+}
+
 
 </style>
 
@@ -67,7 +75,7 @@ body {
 
         </div>
 
-        <div id="player" style="position:fixed;left:50%;background:url('static/walking.gif');background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
+        <div id="player" class="player_normal" style="position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
         
 
     </div>
@@ -118,7 +126,7 @@ function moveRight(){
 function updatePosition(){
 
 
-
+    $('#player').addClass('player_walking').removeClass('player_normal');
 
     $('#map').css('left', scroll_x);
 
@@ -139,6 +147,8 @@ function playerMove(){
 
 function playerStop(){
     clearInterval(timer_walking);
+
+    $('#player').removeClass('player_walking').addClass('player_normal');
 }
 
 $(function () {
