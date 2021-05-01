@@ -38,7 +38,7 @@
 
 
 body {
-    background:black;
+    background:white;
     overflow-x:hidden;
     touch-action: pan-x pan-y;
     overflow:hidden;
@@ -46,6 +46,7 @@ body {
 
 
 button{
+    border:5px white solid;
     background:white;
     border:0;
     font-size:40px;
@@ -55,6 +56,12 @@ button{
     margin:20px 0;
     text-align:center;
     cursor:pointer;
+}
+
+.invert_button{
+    border:5px white solid;
+    background:black;
+    color:white;
 }
 
 .flip-horizontal {
@@ -95,6 +102,44 @@ button{
 }
 
 
+#modal button{text-align:left;}
+
+
+.building_bridge{
+    background-image:url('static/bridge3.png')
+}
+
+.building_house{
+    background-image:url('static/house2.png')
+}
+
+.building_park{
+    background-image:url('static/park3.png')
+}
+
+.building_factory{
+    background-image:url('static/factory.png')
+}
+
+
+
+.invert .building_bridge{
+    background-image:url('static/bridge3b.png')
+}
+
+.invert .building_house{
+    background-image:url('static/house2b.png')
+}
+
+.invert .building_park{
+    background-image:url('static/parkb.png')
+}
+
+.invert .building_factory{
+    background-image:url('static/factoryb.png')
+}
+
+
 /* responsive */
 
 @media screen and (min-width: 480px) {
@@ -131,20 +176,20 @@ button{
 <div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
 
 
-    <table border="0" style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" class="invert">
+    <table id="map_nav" border="0" style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" >
         <tr>
             
             <td width="16.6%">
                 &nbsp;
             </td>
             <td width="16.6%" align="center" bgcolor="white">
-                <img src="static/bridge3.png" width="20">
+                <img src="static/bridge_icon.png" width="20">
             </td>
             <td width="16.6%" align="center" bgcolor="white">
                 <img src="static/house_icon2.png" width="25">
             </td>
             <td width="16.6%" align="center" bgcolor="white">
-                <img src="static/tree.png" width="20">
+                <img src="static/tree_icon.png" width="20">
             </td>
             <td width="16.6%" align="center" bgcolor="white">
                 <img src="static/factory_icon.png" width="20">
@@ -153,16 +198,19 @@ button{
                 &nbsp;
             </td>
             
+
             
         </tr>
         <tr>
-            <td colspan="6" style="padding:0;border-spacing:0;background:black;padding:1px;">
-              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <td colspan="6" style="padding:0;border-spacing:0;padding:1px;">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" style="position:relative;z-index:2;">
                     <tr>    
-                        <td width="0%" id="percent1" bgcolor="#efefef" style="height:20px;border-right:5px #00FFFF solid;">&nbsp;</td>
-                        <td width="100%" id="percent2" bgcolor="#efefef">&nbsp;</td>
+                        <td width="0%" id="percent1" bgcolor="" style="height:20px;border-right:5px red solid;">&nbsp;</td>
+                        <td width="100%" id="percent2" bgcolor="">&nbsp;</td>
                     </tr>
                 </table>
+
+                <div style="width:200px;height:50px;position:relative;margin-top:-12px;border-top:5px black dotted;"></div>
             </td>
         </tr>
         <tr>
@@ -176,7 +224,7 @@ button{
 
 
 
-        <div id="map" class="invert" style="display:none;position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
+        <div id="map" style="display:none;position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
         
             <table border="0" cellspacing="0" cellpadding="0" width="100%" style="height:100%;font-size:50px;">
                 <tr>
@@ -184,19 +232,19 @@ button{
                         &nbsp;
                     </td>
                     <td width="16.6%" valign="bottom" align="center">
-                        <div style="background-image:url('static/bridge3b.png')" class="building " ></div>
+                        <div class="building building_bridge" ></div>
                         <div class="btn_info" id="room1">!</div>
                     </td>
                     <td width="16.6%" valign="bottom" align="center">
-                        <div style="background-image:url('static/house2b.png?')" class="building " ></div>
+                        <div class="building building_house" ></div>
                         <div class="btn_info" id="room2">!</div>
                     </td>
                     <td width="16.6%" valign="bottom" align="center">
-                        <div style="background-image:url('static/parkb.png')" class="building " ></div></div>
+                        <div class="building building_park" ></div></div>
                         <div class="btn_info" id="room3">!</div>
                     </td>
                     <td width="16.6%" valign="bottom" align="center">
-                        <div style="background-image:url('static/factoryb.png')" class="building " ></div></div>
+                        <div class="building building_factory" ></div></div>
                         <div class="btn_info" id="room4">!</div>
                     </td>
                     <td width="16.6%">
@@ -205,8 +253,6 @@ button{
                 </tr>
             </table>
 
-            <!--            <div class="invert" style="position:fixed;left:0;bottom:0;background:url('static/lamp.png');height:400px;width:100%;background-size:auto 80%;background-position:left bottom;background-repeat:repeat-x;">
-            </div>-->
 
             
         </div>
@@ -222,7 +268,7 @@ button{
     <div style="background:black;z-index:1;position:fixed;left:0;top:0;width:100%;height:100%;display:none;font-size:30px;overflow-y:scroll;" id="modal">
         <div class="modal_wrap">
             <div style="color:white;padding:20px 0;">
-                <span id="text"></span>&#11035;
+                <span id="text"></span><span style="font-size:20px;">&#11035;</span>
             </div>
 
             <div id="actions" style="display:none;">
@@ -234,7 +280,7 @@ button{
     </div>
 
 
-    <button id="btn_check" style="display:none;width:200px;position:fixed;left:50%;top:50%;margin-left:-100px;margin-top:-50px;text-align:center;" onclick="openModal()">ENTRAR</button>
+    <button id="btn_check" class="invert_button" style="display:none;width:200px;position:fixed;left:50%;top:50%;margin-left:-100px;margin-top:-50px;text-align:center;" onclick="openModal()">ENTRAR</button>
 
 </div>
 
@@ -290,8 +336,11 @@ var rooms = 4;
 var current_room = 2;
 var is_room = false;
 var stage = 0;
-var delay = 50;
+var delay = 40;
 var is_debug = false;
+var is_night = false;
+var is_mobile = screen_width < 1000;
+
 
 if( document.location.href.indexOf('?test') > -1 ){
     delay = 1;
@@ -301,7 +350,7 @@ if( document.location.href.indexOf('?test') > -1 ){
 
 
 /*
-if( screen_width < 500 ){
+if( is_mobile ){
     max_width = 10000;
 }
 */
@@ -313,10 +362,10 @@ var stages = [
     // 0
     {
         room2: {
-            text: 'eres Alex padre de una familia humilde y ahora te encuentras en casa',
+            text: 'Eres Alex, padre de una familia humilde con una mujer e hija que te quieren, ahora te encuentras en casa',
             actions: [
-                {text:'besar mujer', response: 'te quiero mi vida ¿por cierto no se te está haciendo tarde para ir a trabajar en la fabrica?'},
-                {text:'besar hija', response: 'te quiero papi'},
+                {text:'besar a tu mujer', response: 'te quiero mi vida ¿por cierto no deberías estar trabajando en la fabrica?'},
+                {text:'besar a tu hija', response: 'te quiero papi'},
                 {text:'salir', event: 'stage=1;closeModal()'}
             ]
         },
@@ -351,7 +400,7 @@ var stages = [
             text: 'has llegado a la fabrica donde mantienes las maquinas',
             actions: [
                 {text:'hablar con un compañero', response: 'has oido hablar de la app con la que puedes comunicar con las personas que han muerto'},
-                {text:'arreglar maquina', event: 'stage=2;', response: 'has arreglado la máquina, ya te puedes ir'},
+                {text:'arreglar maquina', event: 'stage=2;changeNight();', response: 'has arreglado la máquina, ya has acabado tu jornada aquí'},
                 {text:'salir', event: 'closeModal()'}
             ]
         }
@@ -372,7 +421,7 @@ var stages = [
             actions: [
                 {text:'cenar', response: 'muy rica la cena'},
                 {text:'acostar a la niña', response: 'buenas noches papi'},
-                {text:'instalar app', event: 'stage=3;scroll_x=0;updatePosition();current_room=1;openModal();'},
+                {text:'instalar app', event: 'stage=3;scroll_x=0;updatePosition();current_room=1;openModal();changeNight();'},
                 //{text:'salir', event: 'closeModal()'}
             ]
         },
@@ -403,7 +452,7 @@ var stages = [
             ]
         },
         room2: {
-            text: 'miras por la ventana y ves una persona que se parece a ti, no entiendes nada',
+            text: 'miras por la ventana y ves una persona que se parece a ti, quizás deberías ir al parque para pensar...',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
@@ -473,7 +522,7 @@ var stages = [
         room3: {
             text: 'acabas de encontrar la persona',
             actions: [
-                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casas', event:'stage=6;'},
+                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casa y fingir que no ha pasado nada', event:'stage=6;'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
@@ -497,7 +546,7 @@ var stages = [
             ]
         },
         room2: {
-            text: 'acabas de llegar a casa pero algo no va como esperabas tu familia no te reconoce',
+            text: 'acabas de llegar a casa pero algo no va como esperabas... tu familia no te reconoce',
             actions: [
                 {text:'hablar con tu mujer', response: 'no le hagas daño a mi hija por favor'},
                 {text:'salir', event: 'closeModal()'}
@@ -506,7 +555,7 @@ var stages = [
         room3: {
             text: 'aqui esta el cuerpo del cadaver',
             actions: [
-                {text:'investigar cuerpo', response: 'parece que tiene una libreta con ideas', event:'stage=7;closeModal()'},
+                {text:'investigar cuerpo', response: 'parece que tiene una libreta con ideas', event:'stage=7;openModal();'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
@@ -519,22 +568,36 @@ var stages = [
         }
     },
 
-    ,
 
-
+    
     // 7
+    {
+      
+        room3: {
+            text: 'aparece un número de teléfono',
+            actions: [
+                {text:'llamar', response: 'te atiente la secretaria de la app y cuelgas enseguida', event:'stage=8;'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+       
+    },
+
+
+    // 8
     {
         
         room1: {
             text: 'nada que hacer por aquí',
             actions: [
-                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=8;closeModal()'},
+                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
             text: 'nada que hacer por aquí',
             actions: [
+                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
@@ -549,13 +612,14 @@ var stages = [
         room4: {
             text: 'nada que hacer por aquí',
             actions: [
+                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         }
     },
 
     
-    // 8
+    // 9
     {
         
         room1: {
@@ -588,8 +652,28 @@ var stages = [
     },
 ];
 
+function hideButton(index){
+    $('#modal button:eq(' + index + ')').hide();
+}
 
+function changeNight(){
+    if( is_night ){
+        is_night = false;
+        $('#map_nav').removeClass('invert');
+        $('#map').removeClass('invert');
+        $('body').css('background', 'white');
+        $('#btn_check').addClass('invert_button');
+        $('#percent1').css('border-color', 'red');
+    }else{
+        is_night = true;
+        $('#map_nav').addClass('invert');
+        $('#map').addClass('invert');
+        $('body').css('background', 'black');
+        $('#btn_check').removeClass('invert_button');
+        $('#percent1').css('border-color', '#00FFFF');
 
+    }
+}
 
 
 /////////////////////////////////////////////////
@@ -602,14 +686,21 @@ function openModal(){
 
         var current_stage = stages[stage]['room'+current_room];
         
-        $('#modal').show();
+
+        if( $('#modal:visible').length == 0 ){
+
+            $('#sound_door')[0].play();
+            $('#sound_ambient')[0].pause();
+            $('#modal').show();
+        }
+
         typewriteText( current_stage.text);
 
 
         var html_actions = '';
 
         for(var i=0; i<current_stage.actions.length; i++){
-            html_actions += '<button onclick="';
+            html_actions += '<button onclick=\"hideButton(' + i + ');';
             if( current_stage.actions[i].event ){
                 html_actions += current_stage.actions[i].event + ';';
             }
@@ -618,14 +709,22 @@ function openModal(){
                 html_actions += 'typewriteText(\'' + current_stage.actions[i].response + '\');';
             }
 
-            html_actions += '">' + current_stage.actions[i].text + '</button>';
+            html_actions += '">';
+            
+            if( !is_mobile ){
+                html_actions += (i+1) + '. ';
+            }
+
+            html_actions += current_stage.actions[i].text + '</button>';
         }
 
         $('#actions').html(html_actions);
 
     });
-    $('#sound_door')[0].play();
-    $('#sound_ambient')[0].pause();
+
+
+
+
     
 
 }
@@ -643,6 +742,9 @@ function typewriteText(text){
     $('#text').html('');
     $('#actions').hide();
 
+    
+    clearInterval(timer_text);
+
     timer_text = setInterval(function(){
         if( letter_index == text.length ){
             clearInterval(timer_text);
@@ -651,9 +753,11 @@ function typewriteText(text){
                 $('#actions').show();
 
             }, (delay*3));
+        }else{
+            
+            $('#text').append(text[letter_index]);
         }
 
-        $('#text').append(text[letter_index]);
         letter_index++;
     }, delay);
 }
@@ -839,7 +943,7 @@ function startGame(){
 
 
 
-    if( screen_width < 500 ){
+    if( is_mobile ){
 
         
 
@@ -867,13 +971,42 @@ function startGame(){
             } else if (e.keyCode == 39) {
                 cursor_x = screen_width;
                 playerMove(cursor_x);
-            }            
+            }
             
 
         });
 
         $('body').keyup(function(e){
             playerStop();
+
+
+
+            if( $('#modal:visible').length == 1 ){
+
+
+                if (e.keyCode == 13) { //intro
+                    $('#modal button:last').click();
+                }else if (e.keyCode == 49) { //1
+                    $('#modal button:eq(0)').click();
+                }else if (e.keyCode == 50) { //2
+                    $('#modal button:eq(1)').click();
+                }else if (e.keyCode == 51) { //3
+                    $('#modal button:eq(2)').click();
+                }
+
+            }else{
+
+                if (e.keyCode == 13) {
+                    if( $('#modal:visible').length == 0 ){
+                        if( $('#btn_check:visible').length == 1 ){
+                            openModal();
+                        }
+                    }
+                }
+            }
+        
+
+
         });
 
     }
