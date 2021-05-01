@@ -121,23 +121,32 @@ button{
 <div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
 
 
-    <table style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" class="invert">
+    <table border="0" style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" class="invert">
         <tr>
-            <td width="25%" align="center" bgcolor="white">
+            
+            <td width="16.6%">
+                &nbsp;
+            </td>
+            <td width="16.6%" align="center" bgcolor="white">
                 <img src="static/bridge3.png" width="20">
             </td>
-            <td width="25%" align="center" bgcolor="white">
-                <img src="static/house_icon.png" width="25">
+            <td width="16.6%" align="center" bgcolor="white">
+                <img src="static/house_icon2.png" width="25">
             </td>
-            <td width="25%" align="center" bgcolor="white">
+            <td width="16.6%" align="center" bgcolor="white">
                 <img src="static/tree.png" width="20">
             </td>
-            <td width="25%" align="center" bgcolor="white">
+            <td width="16.6%" align="center" bgcolor="white">
                 <img src="static/factory_icon.png" width="20">
             </td>
+            <td width="16.6%">
+                &nbsp;
+            </td>
+            
+            
         </tr>
         <tr>
-            <td colspan="4" style="padding:0;border-spacing:0;background:black;padding:1px;">
+            <td colspan="6" style="padding:0;border-spacing:0;background:black;padding:1px;">
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>    
                         <td width="0%" id="percent1" bgcolor="#efefef" style="height:20px;border-right:5px #00FFFF solid;">&nbsp;</td>
@@ -146,37 +155,50 @@ button{
                 </table>
             </td>
         </tr>
+        <tr>
+            <td id="percentaje" colspan="6" align="center" >
+            </td>
+        </tr>
+
     </table>
 
     <div style="overflow-x:hidden;width:100%;">
 
+
+
         <div id="map" class="invert" style="position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
         
-            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="text-align:center;height:100%;font-size:50px;">
+            <table border="0" cellspacing="0" cellpadding="0" width="100%" style="height:100%;font-size:50px;">
                 <tr>
-                    <td width="20%">&nbsp;</td>
-                    <td width="20%" valign="bottom">
+                    <td width="16.6%">
+                        &nbsp;
+                    </td>
+                    <td width="16.6%" valign="bottom" align="center">
                         <div style="background-image:url('static/bridge3b.png')" class="building " ></div>
                         <div class="btn_info" id="room1">!</div>
                     </td>
-                    <td width="20%" valign="bottom">
+                    <td width="16.6%" valign="bottom" align="center">
                         <div style="background-image:url('static/house2b.png?')" class="building " ></div>
                         <div class="btn_info" id="room2">!</div>
                     </td>
-                    <td width="20%" valign="bottom">
+                    <td width="16.6%" valign="bottom" align="center">
                         <div style="background-image:url('static/parkb.png')" class="building " ></div></div>
                         <div class="btn_info" id="room3">!</div>
                     </td>
-                    <td width="20%" valign="bottom">
+                    <td width="16.6%" valign="bottom" align="center">
                         <div style="background-image:url('static/factoryb.png')" class="building " ></div></div>
                         <div class="btn_info" id="room4">!</div>
                     </td>
-                    <td width="20%">&nbsp;</td>
+                    <td width="16.6%">
+                        &nbsp;
+                    </td>
                 </tr>
             </table>
 
             <!--            <div class="invert" style="position:fixed;left:0;bottom:0;background:url('static/lamp.png');height:400px;width:100%;background-size:auto 80%;background-position:left bottom;background-repeat:repeat-x;">
             </div>-->
+
+            
         </div>
 
         <div id="player" class="player_normal" style="margin-bottom:-2px;position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
@@ -202,7 +224,7 @@ button{
     </div>
 
 
-    <button id="btn_check" style="display:none;width:200px;position:fixed;left:50%;top:50%;margin-left:-100px;margin-top:-50px;text-align:center;" onclick="openModal()">INVESTIGAR</button>
+    <button id="btn_check" style="display:none;width:200px;position:fixed;left:50%;top:50%;margin-left:-100px;margin-top:-50px;text-align:center;" onclick="openModal()">ENTRAR</button>
 
 </div>
 
@@ -247,56 +269,311 @@ var screen_width_half = screen_width / 2;
 var scroll_x = 0;//-200;
 var cursor_x;
 var timer_walking;
-var max_width = 3000;
-var percent = 0;
-var speed = 1.5;
+var max_width = 5000;
+var percent = 25;
+var max_speed = 1.5;
+var speed = max_speed;
 var click_seconds = 0;
 var is_walking = false;
 var ambient_playing = false;
 var rooms = 4;
-var current_room = false;
+var current_room = 2;
 var is_room = false;
-var timer_check;
 var stage = 0;
+var delay = 100;
+
+if( document.location.href.indexOf('?test') > -1 ){
+    delay = 1;
+    max_speed = 5;
+}
+
+
+/*
+if( screen_width < 500 ){
+    max_width = 10000;
+}
+*/
 
 /////////////////////////////////////////////////
 
 var stages = [
+
+    // 0
     {
-        room1: {
-            text: 'nada por aqui 1',
-            actions: [
-                {text:'hola', text: 'prueba'},
-                {text:'salir', event: 'closeModal'}
-            ]
-        },
-        
         room2: {
-            text: 'nada por aqui 2',
+            text: 'eres Alex padre de una familia humilde y ahora te encuentras en casa',
             actions: [
-                {text:'hola', text: 'prueba'},
-                {text:'salir', event: 'closeModal'}
+                {text:'besar mujer', response: 'te quiero mi vida ¿por cierto no se te está haciendo tarde para ir a trabajar en la fabrica?'},
+                {text:'besar hija', response: 'te quiero papi'},
+                {text:'salir', event: 'stage=1;closeModal()'}
             ]
         },
+    },
+
+
+    // 1
+    {
         
-        room3: {
-            text: 'nada por aqui 3',
+        room1: {
+            text: 'hoy hace un buen día, pero deberías ir a trabajar al a fabrica',
             actions: [
-                {text:'hola', text: 'prueba'},
-                {text:'salir', event: 'closeModal'}
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'has vuelto a casa',
+            actions: [
+                {text:'besar mujer', response: '¿no deberias estar trabajando?'},
+                {text:'besar hija', response: '¡papi!'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'hoy hace un buen día, pero deberías ir a trabajar al a fabrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
             ]
         },
         
         room4: {
-            text: 'nada por aqui 4',
+            text: 'has llegado a la fabrica donde mantienes las maquinas',
             actions: [
-                {text:'hola', text: 'prueba'},
-                {text:'salir', event: 'closeModal'}
+                {text:'hablar con un compañero', response: 'has oido hablar de la app con la que puedes comunicar con las personas que han muerto'},
+                {text:'arreglar maquina', event: 'stage=2;', response: 'has arreglado la máquina, ya te puedes ir'},
+                {text:'salir', event: 'closeModal()'}
             ]
         }
-    }
+    },
 
 
+    // 2
+    {
+        
+        room1: {
+            text: 'ya es tarde, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'has vuelto a casa',
+            actions: [
+                {text:'cenar', response: 'muy rica la cena'},
+                {text:'acostar a la niña', response: 'buenas noches papi'},
+                {text:'instalar app', event: 'stage=3;scroll_x=0;updatePosition();current_room=1;openModal();'},
+                //{text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'ya es tarde, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'ya es tarde, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+
+    // 3
+    {
+        
+        room1: {
+            text: 'has instalado la app, el hacker te ha atacado, acabas de despertar bajo un puente, no entiendes nada y quieres volver a casa',
+            actions: [
+                {text:'mirar mis manos', response: 'tienes un movil y una pistola'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'miras por la ventana y ves una persona que se parece a ti, no entiendes nada',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'quieres recuperar tu vida, asi que decides planear el plan para deshacerte de esta persona y recuperar tu vida',
+            actions: [
+                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo lo mataras aqui en el parque', event:'stage=4;'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'ya es tarde, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+    // 4
+    
+    {
+        
+        room1: {
+            text: 'nada que hacer por aquí, deberías ir a la fabrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada que hacer por aquí, deberías ir a la fabrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'nada que hacer por aquí, deberías ir a la fabrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'acabas de encontrar la persona que ha robado tu vida, ahora va hacia el parque',
+            actions: [
+                {text:'salir', event: 'stage=5;closeModal()'}
+            ]
+        }
+    },
+
+    // 5
+    {
+        
+        room1: {
+            text: 'nada que hacer por aquí, deberías ir al parque',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada que hacer por aquí, deberías ir al parque',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'acabas de encontrar la persona',
+            actions: [
+                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casas', event:'stage=6;'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí, deberías ir al parque',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+
+    // 6
+    {
+        
+        room1: {
+            text: 'nada que hacer por aquí, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'acabas de llegar a casa pero algo no va como esperabas tu familia no te reconoce',
+            actions: [
+                {text:'hablar con tu mujer', response: 'no le hagas daño a mi hija por favor'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'aqui esta el cuerpo del cadaver',
+            actions: [
+                {text:'investigar cuerpo', response: 'parece que tiene una libreta con ideas', event:'stage=7;closeModal()'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+    ,
+
+
+    // 7
+    {
+        
+        room1: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=8;closeModal()'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'en la página encuentras un número de telefono',
+            actions: [
+                {text:'llamar', response: 'llamas y te responde la secretaria de la aplicación que instalaste'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+    
+    // 8
+    {
+        
+        room1: {
+            text: 'te llama la persona que has matado hace unos días',
+            actions: [
+                {text:'dejar esta guerra', response: 'te suicidas'},
+                {text:'luchar contra la empresa', response: 'continuará.....'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
 ];
 
 
@@ -320,17 +597,23 @@ function openModal(){
         var html_actions = '';
 
         for(var i=0; i<current_stage.actions.length; i++){
+            html_actions += '<button onclick="';
             if( current_stage.actions[i].event ){
-                html_actions += '<button onclick="' + current_stage.actions[i].event + '()">' + current_stage.actions[i].text + '</button>';
-            }else{
-                html_actions += '<button onclick="typewriteText(\'' + current_stage.actions[i].text + '\')">' + current_stage.actions[i].text + '</button>';
+                html_actions += current_stage.actions[i].event + ';';
             }
+            
+            if( current_stage.actions[i].response ){
+                html_actions += 'typewriteText(\'' + current_stage.actions[i].response + '\');';
+            }
+
+            html_actions += '">' + current_stage.actions[i].text + '</button>';
         }
 
         $('#actions').html(html_actions);
 
     });
     $('#sound_door')[0].play();
+    $('#sound_ambient')[0].pause();
     
 
 }
@@ -355,12 +638,12 @@ function typewriteText(text){
             setTimeout(function(){
                 $('#actions').show();
 
-            }, 300);
+            }, (delay*3));
         }
 
         $('#text').append(text[letter_index]);
         letter_index++;
-    }, 100);
+    }, delay);
 }
 
 function moveLeft(){
@@ -368,7 +651,7 @@ function moveLeft(){
 
     $('#player').addClass('flip-horizontal');
 
-    if( scroll_x >= 0 ) return;
+    if( percent <= 0 ) return;
 
     scroll_x += speed;
     updatePosition();
@@ -376,9 +659,12 @@ function moveLeft(){
 
 function moveRight(){
 
+
     
 
-    if( max_width <= (scroll_x*-1) ) return;
+    //if( scroll_x <= ((max_width/2)*-1) ) return;
+
+    if( percent >= 100 ) return;
 
     $('#player').removeClass('flip-horizontal');
 
@@ -399,15 +685,49 @@ function updatePosition(){
     $('#map').css('left', scroll_x);
 
 
-
-    percent = (scroll_x * 100) / max_width;
-
-    if( percent < 0 ) percent *= -1;
     
+
     
+
+    percent = (scroll_x * 100) / ( (max_width-(2*parseInt(max_width/6))) *-1);// - 20;
+
+    //if( percent < 0 ) percent *= -1;
+
+    percent = parseInt(percent);
+
+
+    //////////////////////////
+    $('#percentaje').html('debug ' + percent+'% - ' +current_room);
+    //////////////////////////
     
     $('#percent1').css('width', percent + '%');
     $('#percent2').css('width', (100 - percent) + '%');
+
+
+    $('#btn_check').hide();
+    
+
+
+    if( percent > 10 && percent < 20 ){
+        $('#btn_check').show();
+        current_room = 1;
+
+    }else if( percent > 35 && percent < 45 ){
+        $('#btn_check').show();
+        current_room = 2;
+
+    }else if( percent > 60 && percent < 70 ){
+        $('#btn_check').show();
+        current_room = 3;
+
+    }else if( percent > 80 && percent < 90 ){
+        $('#btn_check').show();
+        current_room = 4;
+
+    }else{
+        current_room = false;
+    }
+
 
 }
 
@@ -444,7 +764,7 @@ function playerMove(){
 function playerStop(){
     clearInterval(timer_walking);
 
-    speed = 1;
+    speed = max_speed;
     click_seconds = 0;
 
     $('#player').removeClass('player_walking').addClass('player_normal');
@@ -457,41 +777,35 @@ function playerStop(){
 
 function startGame(){
 
-    timer_check = setInterval(function(){
-        $('#btn_check').hide();
-        current_room = false;
 
 
-        if( percent > 10 && percent < 20 ){
-            $('#btn_check').show();
-            current_room = 1;
+    scroll_x = ((percent*max_width) / -100  ) ;
 
-        }else if( percent > 40 && percent < 50 ){
-            $('#btn_check').show();
-            current_room = 2;
+    //scroll_x -= 20; 
 
-        }else if( percent > 60 && percent < 70 ){
-            $('#btn_check').show();
-            current_room = 3;
 
-        }else if( percent > 80 && percent < 90 ){
-            $('#btn_check').show();
-            current_room = 4;
+    //$('#map').css('left', scroll_x);
 
-        }
+    //////////////////////////////
 
-    }, 1000);
+
+
+
+
 
     updatePosition();
     playerStop();
 
-    $('#map').css('width', (max_width + 1000) );//.css('height', screen_height);
+    $('#map').css('width', max_width );//.css('height', screen_height);
+    
+    
+    
     
 
     $('#sound_ambient').prop('volume', 0.1);
 
     $('#game').click(function(){
-        if( !ambient_playing ){
+        if( !ambient_playing && !is_room ){
             ambient_playing = true;
             $('#sound_ambient')[0].play();
         }
@@ -510,7 +824,10 @@ function startGame(){
     }); 
 
 
-    if( screen_width > 500 ){
+    if( screen_width < 500 ){
+
+        
+
 
         $('#game').touchstart(function(e){
             cursor_x = e.originalEvent.touches[0].pageX;
@@ -523,6 +840,27 @@ function startGame(){
 
         });
 
+    }else{
+        
+
+        $('body').keydown(function (e) {
+
+
+            if (e.keyCode == 37) {
+                cursor_x = 0;
+                playerMove(cursor_x);
+            } else if (e.keyCode == 39) {
+                cursor_x = screen_width;
+                playerMove(cursor_x);
+            }            
+            
+
+        });
+
+        $('body').keyup(function(e){
+            playerStop();
+        });
+
     }
 
 
@@ -530,6 +868,9 @@ function startGame(){
 }
 
 startGame();
+
+openModal();
+
 </script>
     
     
