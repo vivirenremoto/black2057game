@@ -291,10 +291,12 @@ var current_room = 2;
 var is_room = false;
 var stage = 0;
 var delay = 50;
+var is_debug = false;
 
 if( document.location.href.indexOf('?test') > -1 ){
     delay = 1;
     max_speed = 5;
+    is_debug = true;
 }
 
 
@@ -707,7 +709,9 @@ function updatePosition(){
 
 
     //////////////////////////
-    $('#percentaje').html('debug ' + percent+'% - ' +current_room);
+    if( is_debug ){
+        $('#percentaje').html('debug ' + percent+'% - ' +current_room);
+    }
     //////////////////////////
     
     $('#percent1').css('width', percent + '%');
