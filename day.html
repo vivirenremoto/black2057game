@@ -38,10 +38,8 @@
 
 
 body {
-    background:black;
     overflow-x:hidden;
     touch-action: pan-x pan-y;
-    overflow:hidden;
 }
 
 .flip-horizontal {
@@ -53,11 +51,6 @@ body {
     /*IE*/
     filter: fliph;
     /*IE*/
-}
-
-.invert { 
-    -webkit-filter: invert(100%);
-    filter: invert(100%);
 }
 
 .player_normal{
@@ -81,6 +74,8 @@ body {
 
 @media screen and (min-width: 480px) {
     .building{
+        position:relative;
+        margin-bottom:-20px;
         width:600px;
         height:500px;
     }
@@ -88,8 +83,8 @@ body {
 
 @media screen and (max-width: 480px) {
     .building{
-        width:400px;
-        height:300px;
+        width:200px;
+        height:200px;
     }
 }
 
@@ -103,26 +98,26 @@ body {
 <div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
 
 
-    <table style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" class="invert">
+    <table style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0">
         <tr>
             <td width="25%" align="center" bgcolor="white">
                 <img src="static/bridge3.png" width="20">
             </td>
             <td width="25%" align="center" bgcolor="white">
-                <img src="https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_home_48px-512.png" width="25">
+                <img src="static/house2.png" width="20">
             </td>
             <td width="25%" align="center" bgcolor="white">
-                <img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/tree-256.png" width="20">
+                <img src="static/park2.png" width="20">
             </td>
             <td width="25%" align="center" bgcolor="white">
-                <img src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/industry-256.png" width="20">
+                <img src="static/factory.png" width="20">
             </td>
         </tr>
         <tr>
             <td colspan="4" style="padding:0;border-spacing:0;background:black;padding:1px;">
               <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>    
-                        <td width="0%" id="percent1" bgcolor="#efefef" style="height:20px;border-right:5px #00FFFF solid;">&nbsp;</td>
+                        <td width="0%" id="percent1" bgcolor="#efefef" style="height:20px;border-right:5px red solid;">&nbsp;</td>
                         <td width="100%" id="percent2" bgcolor="#efefef">&nbsp;</td>
                     </tr>
                 </table>
@@ -132,34 +127,29 @@ body {
 
     <div style="overflow-x:hidden;width:100%;">
 
-        <div id="map" class="invert" style="position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
+        <div id="map" style="position:fixed;left:0;top:0;background:url('static/bg.png');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
         
             <table border="0" cellspacing="0" cellpadding="0" width="100%" style="text-align:center;height:100%;font-size:50px;">
                 <tr>
                     <td width="20%">&nbsp;</td>
                     <td width="20%" valign="bottom">
-                        <div style="background-image:url('static/bridge3b.png')" class="building " ></div>
+                        <div style="background-image:url('static/bridge3.png')" class="building" ></div>
                     </td>
                     <td width="20%" valign="bottom">
-                        <div style="background-image:url('static/house2b.png?')" class="building " ></div>
+                        <div style="background-image:url('static/house2.png')" class="building" ></div>
                     </td>
                     <td width="20%" valign="bottom">
-                        <div style="background-image:url('static/park3b.png')" class="building " ></div>
+                        <div style="background-image:url('static/park2.png')" class="building" ></div>
                     </td>
                     <td width="20%" valign="bottom">
-                        <div style="background-image:url('static/factoryb.png')" class="building " ></div>
+                        <div style="background-image:url('static/factory.png')" class="building" ></div>
                     </td>
                 </tr>
             </table>
-
-            <!--            <div class="invert" style="position:fixed;left:0;bottom:0;background:url('static/lamp.png');height:400px;width:100%;background-size:auto 80%;background-position:left bottom;background-repeat:repeat-x;">
-            </div>-->
         </div>
 
         <div id="player" class="player_normal" style="margin-bottom:-2px;position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
         
-
-
 
     </div>
 
