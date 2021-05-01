@@ -102,12 +102,22 @@ button{
         width:600px;
         height:500px;
     }
+
+    .modal_wrap{
+        max-width:480px;
+        margin:auto;
+    }
 }
 
 @media screen and (max-width: 480px) {
     .building{
         width:400px;
         height:300px;
+    }
+
+    .modal_wrap{
+        max-width:80%;
+        margin:auto;
     }
 }
 
@@ -210,7 +220,7 @@ button{
 
 
     <div style="background:black;z-index:1;position:fixed;left:0;top:0;width:100%;height:100%;display:none;font-size:30px;overflow-y:scroll;" id="modal">
-        <div style="width:480px;margin:auto;">
+        <div class="modal_wrap">
             <div style="color:white;padding:20px 0;">
                 <span id="text"></span>&#11035;
             </div>
