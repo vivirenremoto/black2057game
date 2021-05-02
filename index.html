@@ -334,12 +334,6 @@ var is_mobile = screen_width < 1000;
 var current_text;
 
 
-if( document.location.href.indexOf('?test') > -1 ){
-    delay = 1;
-    max_speed = 5;
-    is_debug = true;
-}
-
 
 
 
@@ -358,14 +352,18 @@ if( is_mobile ){
 
 
     
-    var zones_rooms = [
-        [10,20],
-        [40,50],
-        [60,70],
-        [90,100]
-    ];
+    max_speed = 1.5;
+    speed = max_speed;
 
 }
+
+
+if( document.location.href.indexOf('?test') > -1 ){
+    delay = 1;
+    max_speed = 5;
+    is_debug = true;
+}
+
 
 
 /////////////////////////////////////////////////
@@ -377,7 +375,7 @@ var stages = [
         room2: {
             text: 'Eres Alex, padre de una familia humilde con una mujer e hija que te quieren, ahora te encuentras en casa',
             actions: [
-                {text:'besar a tu mujer', response: 'te quiero mi vida ¿por cierto no deberías estar trabajando en la fabrica?'},
+                {text:'besar a tu mujer', response: 'te quiero mi vida ¿por cierto no deberías estar trabajando en la fábrica?'},
                 {text:'besar a tu hija', response: 'te quiero papi'},
                 {text:'salir', event: 'stage=1;closeModal()'}
             ]
@@ -397,23 +395,24 @@ var stages = [
         room2: {
             text: 'has vuelto a casa',
             actions: [
-                {text:'besar mujer', response: '¿no deberias estar trabajando?'},
+                {text:'besar mujer', response: '¿cariño no te van a decir nada en el trabajo en la fábrica?'},
                 {text:'besar hija', response: '¡papi!'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room3: {
-            text: 'hoy hace un buen día, pero deberías ir a trabajar al a fabrica',
+            text: 'hoy hace un buen día, pero deberías ir a trabajar a la fábrica',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         
         room4: {
-            text: 'has llegado a la fabrica donde mantienes las maquinas',
+            text: 'actualmente muchos empleos han desaparecido, las máquinas han reemplazado a las personas, por suerte te dedicas a mantenerlas para que funcionen las 24 horas del día',
             actions: [
-                {text:'hablar con un compañero', response: 'has oido hablar de la app con la que puedes comunicar con las personas que han muerto'},
-                {text:'arreglar maquina', event: 'stage=2;changeNight();', response: 'has arreglado la máquina, ya has acabado tu jornada aquí'},
+                {text:'hablar con un compañero', response: 'hey Alex, acabo de descubrir una aplicación que te permite comunicarte con las personas que han muerto'},
+                {text:'arreglar maquina', event: 'stage=2;changeNight();', response: 'has arreglado la máquina, ya has terminado tu jornada y te puedes ir'},
+                {text:'atender llamada', response: 'te ha llamado un viejo amigo de la infancia, te cuenta que ha fallecido tu primer amor al que nunca tuviste el valor de declararte'},
                 {text:'salir', event: 'closeModal()'}
             ]
         }
@@ -432,10 +431,9 @@ var stages = [
         room2: {
             text: 'has vuelto a casa',
             actions: [
-                {text:'cenar', response: 'muy rica la cena'},
-                {text:'acostar a la niña', response: 'buenas noches papi'},
+                {text:'cenar', response: 'has cocinado una lasaña vegetal y la verdad es que me ha salido muy rica'},
+                {text:'acostar a la niña', response: 'buenas noches papi, te quiero papi'},
                 {text:'instalar app', event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();changeNight();'},
-                //{text:'salir', event: 'closeModal()'}
             ]
         },
         room3: {
@@ -458,14 +456,15 @@ var stages = [
     {
         
         room1: {
-            text: 'has instalado la app, el hacker te ha atacado, acabas de despertar bajo un puente, no entiendes nada y quieres volver a casa',
+            text: 'has instalado la app que te ha comentado tu compañero, un hacker ha conseguido conectarse en tu cabeza y pierdes el conocimiento, al día siguiente despiertas bajo un puente, no entiendes nada y solo quieres volver a casa',
             actions: [
-                {text:'mirar mis manos', response: 'tienes un movil y una pistola'},
+                {text:'leer terminos de la app', response: 'al final sale en letra pequeña que la empresa puede entrar de forma remota en la mente de una persona que use la app'},
+                {text:'mirar mis bolsillos', response: 'tienes un movil y una pistola'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
-            text: 'miras por la ventana y ves una persona que se parece a ti, quizás deberías ir al parque para pensar...',
+            text: 'miras por la ventana y ves una persona que se parece a ti, quizás deberías ir al parque a tomar el aire...',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
@@ -473,7 +472,7 @@ var stages = [
         room3: {
             text: 'quieres recuperar tu vida, asi que decides planear el plan para deshacerte de esta persona y recuperar tu vida',
             actions: [
-                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo lo mataras aqui en el parque', event:'stage=4;'},
+                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo a casa lo mataras aqui en el parque', event:'stage=4;'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
@@ -535,7 +534,7 @@ var stages = [
         room3: {
             text: 'acabas de encontrar la persona',
             actions: [
-                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casa y fingir que no ha pasado nada', event:'stage=6;'},
+                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casa y fingir que no ha pasado nada', event:'stage=6;changeNight();'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
@@ -702,7 +701,7 @@ function openModal(){
 
         if( $('#modal:visible').length == 0 ){
 
-            $('#sound_door')[0].play();
+            ///////////$('#sound_door')[0].play();
             $('#sound_ambient')[0].pause();
             $('#modal').show();
         }
@@ -746,7 +745,7 @@ function closeModal(){
     is_room = false;
     $('#modal').hide();
     $('#map').fadeIn('slow');
-    $('#sound_door')[0].play();
+    ////////$('#sound_door')[0].play();
 
 }
 
