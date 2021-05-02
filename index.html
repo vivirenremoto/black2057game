@@ -318,7 +318,7 @@ var max_width = 5000;
 var max_width_aux;
 var room_width = max_width / 5;
 var percent = 0;
-var max_speed = 1.5;
+var max_speed = 2;
 var speed = max_speed;
 var click_seconds = 0;
 var is_walking = false;
@@ -354,7 +354,7 @@ var zones_rooms = [
 
 
 if( is_mobile ){
-    //max_width = screen_width * 8;
+    //max_width = screen_width * 6;
 
 
     
@@ -434,7 +434,7 @@ var stages = [
             actions: [
                 {text:'cenar', response: 'muy rica la cena'},
                 {text:'acostar a la niña', response: 'buenas noches papi'},
-                {text:'instalar app', event: 'stage=3;scroll_x=0;updatePosition();current_room=1;openModal();changeNight();'},
+                {text:'instalar app', event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();changeNight();'},
                 //{text:'salir', event: 'closeModal()'}
             ]
         },
