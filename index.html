@@ -49,8 +49,8 @@ button{
     border:5px white solid;
     background:white;
     border:0;
-    font-size:40px;
-    padding:10px;
+    font-size:30px;
+    padding:10px 20px;
     display:block;
     width:100%;
     margin:20px 0;
@@ -156,12 +156,12 @@ button{
 
 @media screen and (max-width: 480px) {
     .building{
-        width:400px;
-        height:300px;
+        width:450px;
+        height:350px;
     }
 
     .modal_wrap{
-        max-width:80%;
+        max-width:85%;
         margin:auto;
     }
 }
@@ -169,33 +169,28 @@ button{
 </style>
 
 
-<!--
-<div style="position:fixed;text-align:center;left:0;top:10px;font-size:40px;width:100%;">BLACK 2057 - v4</div>
--->
+
 
 <div id="game" style="z-index:99;position:fixed;left:0;top:0;width:100%;height:100%;">
 
 
     <table id="map_nav" border="0" style="position:fixed;left:50%;top:10px;width:200px;margin-left:-100px;font-size:20px;" cellspacing="0" border="0" >
         <tr>
-            
-            <td width="16.6%">
+            <!--
+            <td width="20%%">
                 &nbsp;
-            </td>
-            <td width="16.6%" align="center" bgcolor="white">
+            </td>-->
+            <td width="25%" align="center" bgcolor="white">
                 <img src="static/bridge_icon.png" width="20">
             </td>
-            <td width="16.6%" align="center" bgcolor="white">
+            <td width="25%" align="center" bgcolor="white">
                 <img src="static/house_icon2.png" width="25">
             </td>
-            <td width="16.6%" align="center" bgcolor="white">
+            <td width="25%" align="center" bgcolor="white">
                 <img src="static/tree_icon.png" width="20">
             </td>
-            <td width="16.6%" align="center" bgcolor="white">
+            <td width="25%" align="center" bgcolor="white">
                 <img src="static/factory_icon.png" width="20">
-            </td>
-            <td width="16.6%">
-                &nbsp;
             </td>
             
 
@@ -223,33 +218,27 @@ button{
     <div style="overflow-x:hidden;width:100%;">
 
 
-
         <div id="map" style="display:none;position:fixed;left:0;top:0;background:url('static/bg.jpg');background-position:left bottom;background-repeat:repeat-x;background-size:auto 65%;height:100%;">
         
             <table border="0" cellspacing="0" cellpadding="0" width="100%" style="height:100%;font-size:50px;">
                 <tr>
-                    <td width="16.6%">
-                        &nbsp;
-                    </td>
-                    <td width="16.6%" valign="bottom" align="center">
+                    <td width="25%" valign="bottom" align="center">
                         <div class="building building_bridge" ></div>
                         <div class="btn_info" id="room1">!</div>
                     </td>
-                    <td width="16.6%" valign="bottom" align="center">
+                    <td width="25%" valign="bottom" align="center">
                         <div class="building building_house" ></div>
                         <div class="btn_info" id="room2">!</div>
                     </td>
-                    <td width="16.6%" valign="bottom" align="center">
+                    <td width="25%" valign="bottom" align="center">
                         <div class="building building_park" ></div></div>
                         <div class="btn_info" id="room3">!</div>
                     </td>
-                    <td width="16.6%" valign="bottom" align="center">
+                    <td width="25%" valign="bottom" align="center">
                         <div class="building building_factory" ></div></div>
                         <div class="btn_info" id="room4">!</div>
                     </td>
-                    <td width="16.6%">
-                        &nbsp;
-                    </td>
+                    
                 </tr>
             </table>
 
@@ -326,7 +315,9 @@ var scroll_x = 0;//-200;
 var cursor_x;
 var timer_walking;
 var max_width = 5000;
-var percent = 25;
+var max_width_aux;
+var room_width = max_width / 5;
+var percent = 0;
 var max_speed = 1.5;
 var speed = max_speed;
 var click_seconds = 0;
@@ -340,6 +331,7 @@ var delay = 40;
 var is_debug = false;
 var is_night = false;
 var is_mobile = screen_width < 1000;
+var current_text;
 
 
 if( document.location.href.indexOf('?test') > -1 ){
@@ -349,11 +341,32 @@ if( document.location.href.indexOf('?test') > -1 ){
 }
 
 
-/*
+
+
+var zones_rooms = [
+    [10,20],
+    [40,50],
+    [60,70],
+    [90,100]
+];
+
+
+
+
 if( is_mobile ){
-    max_width = 10000;
+    //max_width = screen_width * 8;
+
+
+    
+    var zones_rooms = [
+        [10,20],
+        [40,50],
+        [60,70],
+        [90,100]
+    ];
+
 }
-*/
+
 
 /////////////////////////////////////////////////
 
@@ -738,6 +751,9 @@ function closeModal(){
 }
 
 function typewriteText(text){
+
+    current_text = text;
+
     letter_index = 0;
     $('#text').html('');
     $('#actions').hide();
@@ -775,12 +791,23 @@ function moveLeft(){
 
 function moveRight(){
 
+    /*
+    if( is_mobile ){
+        if( percent >= 100 ) return;
+    }else{
+        if( percent >= 80 ) return;
+    }
+    */
+
+    if( percent >= 100 ) return;
 
     
+    //if( (scroll_x*-1) >= (max_width-room_width) ) return;
+
 
     //if( scroll_x <= ((max_width/2)*-1) ) return;
 
-    if( percent >= 100 ) return;
+    //if( percent >= 100 ) return;
 
     $('#player').removeClass('flip-horizontal');
 
@@ -799,13 +826,17 @@ function updatePosition(){
     $('#player').addClass('player_walking').removeClass('player_normal');
 
     $('#map').css('left', scroll_x);
+    ///////////////////////////
 
 
     
 
     
+    percent = (scroll_x * 100) / (max_width*-1);
 
-    percent = (scroll_x * 100) / ( (max_width-(2*parseInt(max_width/6))) *-1);// - 20;
+    
+
+    //percent = (scroll_x * 100) / ( (max_width-(2*parseInt(max_width/6))) *-1);// - 20;
 
     //if( percent < 0 ) percent *= -1;
 
@@ -814,7 +845,7 @@ function updatePosition(){
 
     //////////////////////////
     if( is_debug ){
-        $('#percentaje').html('debug ' + percent+'% - ' +current_room);
+        $('#percentaje').html(percent+'% - ' +current_room);
     }
     //////////////////////////
     
@@ -826,19 +857,19 @@ function updatePosition(){
     
 
 
-    if( percent > 10 && percent < 20 ){
+    if( percent >= zones_rooms[0][0] && percent <= zones_rooms[0][1] ){
         $('#btn_check').show();
         current_room = 1;
 
-    }else if( percent > 35 && percent < 45 ){
+    }else if( percent >= zones_rooms[1][0] && percent <= zones_rooms[1][1] ){
         $('#btn_check').show();
         current_room = 2;
 
-    }else if( percent > 60 && percent < 70 ){
+    }else if( percent >= zones_rooms[2][0] && percent <= zones_rooms[2][1] ){
         $('#btn_check').show();
         current_room = 3;
 
-    }else if( percent > 80 && percent < 90 ){
+    }else if( percent >= zones_rooms[3][0] && percent <= zones_rooms[3][1] ){
         $('#btn_check').show();
         current_room = 4;
 
@@ -893,11 +924,38 @@ function playerStop(){
 }
 
 
+function changeRoom(room){
+    
+
+
+    current_room = room;
+
+    //max_width_aux----100
+    //zones_rooms[room][0]-----x
+
+    scroll_x = ((zones_rooms[room-1][0] + ( ( zones_rooms[room-1][1] - zones_rooms[room-1][0] )/2) ) * max_width) / 100;
+
+    scroll_x *= -1;
+
+
+    
+
+
+    $('#map').css('left', scroll_x);
+}
+
+
 function startGame(){
 
 
 
-    scroll_x = ((percent*max_width) / -100  ) ;
+
+
+
+    //scroll_x = ((percent*max_width) / -100  ) ;
+
+    
+
 
     //scroll_x -= 20; 
 
@@ -911,13 +969,31 @@ function startGame(){
 
 
 
+
+
+
+    max_width_aux = max_width;
+
+    if( is_mobile ){
+        max_width_aux += room_width;
+    }else{
+        max_width_aux += (room_width*2);
+    }
+
+
+    
+    
+    $('#map').css('width', max_width_aux );//.css('height', screen_height);
+    $('#map table').css('width', max_width).css('margin','auto');
+    
+    
+
+    changeRoom(current_room);
+
+
     updatePosition();
     playerStop();
 
-    $('#map').css('width', max_width );//.css('height', screen_height);
-
-    
-    
     
 
     $('#sound_ambient').prop('volume', 0.1);
@@ -959,59 +1035,67 @@ function startGame(){
 
         });
 
-    }else{
+    }
+    
+    
+
+    $('body').keydown(function (e) {
+
+
+        if (e.keyCode == 37) {
+            cursor_x = 0;
+            playerMove(cursor_x);
+        } else if (e.keyCode == 39) {
+            cursor_x = screen_width;
+            playerMove(cursor_x);
+        }
         
 
-        $('body').keydown(function (e) {
+    });
+
+    $('body').keyup(function(e){
+        playerStop();
 
 
-            if (e.keyCode == 37) {
-                cursor_x = 0;
-                playerMove(cursor_x);
-            } else if (e.keyCode == 39) {
-                cursor_x = screen_width;
-                playerMove(cursor_x);
+
+        if( $('#modal:visible').length == 1 ){
+
+
+            if (e.keyCode == 13) { //intro
+                $('#modal button:last').click();
+            }else if (e.keyCode == 49) { //1
+                $('#modal button:eq(0)').click();
+            }else if (e.keyCode == 50) { //2
+                $('#modal button:eq(1)').click();
+            }else if (e.keyCode == 51) { //3
+                $('#modal button:eq(2)').click();
             }
-            
 
-        });
+        }else{
 
-        $('body').keyup(function(e){
-            playerStop();
-
-
-
-            if( $('#modal:visible').length == 1 ){
-
-
-                if (e.keyCode == 13) { //intro
-                    $('#modal button:last').click();
-                }else if (e.keyCode == 49) { //1
-                    $('#modal button:eq(0)').click();
-                }else if (e.keyCode == 50) { //2
-                    $('#modal button:eq(1)').click();
-                }else if (e.keyCode == 51) { //3
-                    $('#modal button:eq(2)').click();
-                }
-
-            }else{
-
-                if (e.keyCode == 13) {
-                    if( $('#modal:visible').length == 0 ){
-                        if( $('#btn_check:visible').length == 1 ){
-                            openModal();
-                        }
+            if (e.keyCode == 13) {
+                if( $('#modal:visible').length == 0 ){
+                    if( $('#btn_check:visible').length == 1 ){
+                        openModal();
                     }
                 }
             }
-        
+        }
+    
 
 
-        });
-
-    }
+    });
 
 
+
+    // skip
+    $('#modal').click(function(){
+        if( timer_text ){
+            clearInterval(timer_text);
+            $('#text').html(current_text);
+            $('#actions').show();
+        }
+    });
 
 }
 
