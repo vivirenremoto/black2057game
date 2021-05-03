@@ -10,12 +10,15 @@
 
     
     <link rel="prefetch" href="static/mp3/ambient.mp3" />
+    <link rel="prefetch" href="static/mp3/night.mp3" />
     <!--<link rel="prefetch" href="static/mp3/door.mp3" />-->
     <link rel="prefetch" href="static/mp3/ending.mp3" />
     <link rel="prefetch" href="static/mp3/shoot.mp3" />
     <link rel="prefetch" href="static/mp3/walk.mp3" />
     <link rel="prefetch" href="static/mp3/crying.mp3" />
     <link rel="prefetch" href="static/mp3/police.mp3" />
+    <link rel="prefetch" href="static/mp3/phone.mp3" />
+    <!--<link rel="prefetch" href="static/mp3/select.mp3" />-->
 
 
 
@@ -166,7 +169,7 @@ button{
 
 /* responsive */
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 800px) {
     .building{
         width:600px;
         height:500px;
@@ -178,7 +181,7 @@ button{
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 800px) {
     .building{
         width:450px;
         height:350px;
@@ -311,6 +314,12 @@ button{
 </audio>
 
 
+<audio id="sound_night" loop>
+    <source src="static/mp3/night.mp3" type="audio/mp3">
+</audio>
+
+
+
 <audio id="sound_walking" loop>
     <source src="static/mp3/walk.mp3" type="audio/mp3">
 </audio>
@@ -321,7 +330,14 @@ button{
     <source src="static/mp3/crying.mp3" type="audio/mp3">
 </audio>
 
+<!--
+<audio id="sound_select">
+    <source src="static/mp3/select.mp3" type="audio/mp3">
+</audio>-->
 
+<audio id="sound_phone" loop>
+    <source src="static/mp3/phone.mp3" type="audio/mp3">
+</audio>
 
 <audio id="sound_police">
     <source src="static/mp3/police.mp3" type="audio/mp3">
@@ -375,7 +391,7 @@ var stage = 0;
 var delay = 40;
 var is_debug = false;
 var is_night = false;
-var is_mobile = screen_width < 1000;
+var is_mobile = screen_width < 800;
 var current_text;
 
 
@@ -420,8 +436,8 @@ var stages = [
         room2: {
             text: 'Eres Alex, padre de una familia humilde con una mujer e hija que te quieren, ahora te encuentras en casa',
             actions: [
-                {text:'besar a tu mujer', response: 'te quiero mi vida ¿por cierto no deberías estar trabajando en la fábrica?'},
-                {text:'besar a tu hija', response: 'te quiero papi'},
+                {text:'besar a tu mujer', response: 'te quiero mi vida ¿por cierto no deberías estar en la fábrica trabajando?'},
+                {text:'besar a tu hija', response: 'te quiero papi, que tengas un buen día'},
                 {text:'salir', event: 'stage=1;closeModal()'}
             ]
         },
@@ -453,10 +469,10 @@ var stages = [
         },
         
         room4: {
-            text: 'actualmente muchos empleos han dejado de existir, las máquinas han reemplazado a las personas, tu trabajo es mantenerlas para que funcionen las 24 horas',
+            text: 'actualmente muchos empleos han dejado de existir, las máquinas han reemplazado a las personas, tu trabajo consiste en mantenerlas para que funcionen las 24 horas',
             actions: [
-                {text:'hablar con un compañero', response: 'Tu compañero de habla de una nueva aplicación que te permite comunicarte con las personas que han muerto', event: 'showButton(1);showButton(2)'},
-                {text:'arreglar maquina', hidden: true, event: 'stage=2;changeNight();', response: 'has arreglado la máquina y terminado tu jornada laboral por hoy, ya puedes volver a casa'},
+                {text:'hablar con un compañero', response: 'Tu compañero te habla de una nueva app que te permite comunicarte con las personas que han muerto', event: 'showButton(1);showButton(2)'},
+                {text:'arreglar maquina', hidden: true, event: 'stage=2;', response: 'has arreglado la máquina y terminado tu jornada laboral por hoy, ya puedes volver a casa'},
                 {text:'salir', hidden: true, event: 'checkWork()'}
             ]
         }
@@ -476,9 +492,9 @@ var stages = [
             text: 'has vuelto a casa',
             actions: [
                 {text:'cenar', response: 'has cocinado una lasaña vegetal y la verdad es que te ha salido muy rica'},
-                {text:'acostar a la niña', response: 'buenas noches papi, te quiero papi'},
-                {text:'atender llamada', response: 'te llama un amigo de la infancia, te cuenta que ha fallecido en un accidente de tráfico tu primer amor, al que nunca tuviste el valor de declararte', event: 'showButton(3)'},
-                {text:'ir a dormir', hidden: true, event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();changeNight();'},
+                {text:'acostar a la niña', response: 'buenas noches papi, te quiero mucho'},
+                {text:'mirar móvil', response: 'te ha escrito un amigo de la infancia, dice que ha fallecido tu primer amor en un accidente de tráfico, al que no tuviste el valor de declararte', event: 'showButton(3)'},
+                {text:'ir a la cama', hidden: true, event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();'},
             ]
         },
         room3: {
@@ -498,15 +514,16 @@ var stages = [
 
 
 
+    
 
 
     // 3
     {
         
         room1: {
-            text: 'reflexionas si tu primer amor sentía lo mismo por ti, tu cabeza click y aunque esto te parece una tontería, piensas sobre la app que te han contado en el trabajo',
+            text: 'piensas que hubiera ocurrido si hubieras dado el paso, si ella sentía algo por ti, te gustaría quitarte esa espina del corazón',
             actions: [
-                {text:'instalar app', event: 'stage=4;openModal()'}
+                {text:'continuar', event: 'stage=4;openModal()'}
             ]
         },
     },
@@ -515,9 +532,9 @@ var stages = [
     {
         
         room1: {
-            text: 'Días atrás un hacker consiguió infiltrarse en el sistema, poniendo a su disposición la consciencia de millones de personas',
+            text: 'tu cabeza click y aunque esto te parece una tontería, piensas sobre la app que te han contado en el trabajo',
             actions: [
-                {text:'continuar', event: 'stage=5;openModal()'}
+                {text:'instalar app', event: 'stage=5;openModal()'}
             ]
         },
     },
@@ -526,9 +543,20 @@ var stages = [
     {
         
         room1: {
-            text: 'Abres la app y el hacker se conecta en tu mente, pierdes el conocimiento',
+            text: 'Días atrás un hacker consiguió infiltrarse en el sistema, poniendo a su disposición la consciencia de millones de personas',
             actions: [
                 {text:'continuar', event: 'stage=6;openModal()'}
+            ]
+        },
+    },
+
+    // 6
+    {
+        
+        room1: {
+            text: 'sin saber nada de esto, Abres la app, inmediatamente el hacker se conecta en tu mente y pierdes el conocimiento',
+            actions: [
+                {text:'continuar', event: 'stage=7;openModal();changeNight();'}
             ]
         },
     },
@@ -538,11 +566,11 @@ var stages = [
     
 
 
-    // 6
+    // 7
     {
         
         room1: {
-            text: 'al día siguiente despiertas bajo un puente, no recuerdas nada y solo quieres volver a casa',
+            text: 'al día siguiente despiertas debajo un puente, no recuerdas nada y solo quieres volver a casa',
             actions: [
                 {text:'mirar bolsillos', response: 'tienes un movil y una pistola'},
                 {text:'leer terminos de la app', response: 'al final de los términos con letra pequeña dice que la empresa puede entrar de forma remota en la mente de una persona que use la app'},
@@ -554,7 +582,7 @@ var stages = [
             actions: [
                 
                 {text:'mirar por la ventana', response: 'parece que esa persona ha ocupado tu lugar, nadie se ha dado cuenta que realmente no eres tu, estás confundido, quizás deberías ir al parque a tomar el aire...', event:'showButton(1)'},
-                {text:'salir', hidden: true, event: 'stage=7;closeModal()'}
+                {text:'salir', hidden: true, event: 'stage=8;closeModal()'}
             ]
         },
         room3: {
@@ -574,7 +602,7 @@ var stages = [
 
 
 
-    // 7
+    // 8
     {
         
         room1: {
@@ -593,7 +621,7 @@ var stages = [
         room3: {
             text: 'desesperado quieres recuperar tu vida, empiezas a trazar un plan para deshacerte de esta persona',
             actions: [
-                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo lo matarás aquí en el parque', event:'stage=8;showButton(1)'},
+                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo lo matarás en el parque', event:'stage=9;showButton(1)'},
                 {text:'salir', hidden: true, event: 'closeModal()'}
             ]
         },
@@ -612,7 +640,7 @@ var stages = [
     
 
 
-    // 8
+    // 9
     
     {
         
@@ -636,14 +664,14 @@ var stages = [
         },
         
         room4: {
-            text: 'has esperado hasta la noche, acaba de salir la persona que buscas, deberías seguirlo hasta el parque',
+            text: 'esperas hasta la noche, parece que acaba de salir la persona que buscas, deberías seguirlo hasta el parque',
             actions: [
-                {text:'salir', event: 'stage=9;closeModal();changeNight();'}
+                {text:'salir', event: 'stage=10;changeNight();closeModal();'}
             ]
         }
     },
 
-    // 9
+    // 10
     {
         
         room1: {
@@ -661,7 +689,7 @@ var stages = [
         room3: {
             text: 'acabas de seguir a la persona que ha robado tu vida hasta el parque',
             actions: [
-                {text:'disparar', event:'playShoot();'},
+                {text:'disparar arma', event:'playShoot();'},
                 //{text:'salir', event: 'closeModal()'}
             ]
         },
@@ -675,7 +703,7 @@ var stages = [
     },
 
 
-    // 10
+    // 11
     {
         
         room1: {
@@ -685,11 +713,11 @@ var stages = [
             ]
         },
         room2: {
-            text: 'acabas de llegar a casa pero algo no va como esperabas... ',
+            text: 'acabas de llegar a casa ',
             actions: [
-                {text:'hablar con tu mujer', response: 'no sé quien eres, ni lo que buscas, pero por favor no le hagas daño a mi hija', event: 'playCrying()'},
-                {text:'hablar con tu hija', response: 'no le haga daño a mi mamá', event: 'playCrying()'},
-                {text:'salir', event: 'stage=11;closeModal();stopCrying()'}
+                {text:'hablar con tu mujer', response: 'no sé quien eres, ni lo que buscas, pero por favor no le hagas daño a mi hija', event: 'showButton(1);playCrying()'},
+                {text: 'continuar', hidden:true, event: 'stage=12;openModal();'}
+
             ]
         },
         room3: {
@@ -709,7 +737,24 @@ var stages = [
 
 
 
-    // 11
+    // 12
+    {
+        
+
+        room2: {
+            text: 'en ese momento miras a través de un espejo tu cara y te das cuenta que no eres la persona ue pensaba que eras',
+            actions: [
+
+                {text:'salir', event: 'stage=13;closeModal();'}
+            ]
+        },
+    },
+
+
+    /////////////////////////////////////////
+
+    // 13
+
     {
         
         room1: {
@@ -727,7 +772,7 @@ var stages = [
         room3: {
             text: 'entre los arbustos del parque se encuentra el cuerpo de la persona que has asesinado',
             actions: [
-                {text:'revisar cuerpo', event:'stage=12;openModal();'},
+                {text:'revisar cuerpo', event:'stage=14;openModal();'},
                 //{text:'salir', event: 'closeModal()'}
             ]
         },
@@ -743,40 +788,40 @@ var stages = [
 
 
     
-    // 12
-    {
-        room3: {
-            text: 'tiene una libreta con ideas, parece que a esta persona le gustaba inventar, una de las ideas es una tecnología que permite transferir recuerdos en personas',
-            actions: [
-                {text:'continuar', event:'stage=13;openModal();'},
-                //{text:'salir', event: 'closeModal()'}
-            ]
-        },
-        
-    },
-
-    // 13
-    {
-        room3: {
-            text: 'abajo de la página aparece número de télefono y crees que eso podría tener alguna relación con lo que te ha pasado',
-            actions: [
-                {text:'llamar al teléfono', event:'stage=14;openModal();'},
-                //{text:'salir', event: 'closeModal()'}
-            ]
-        },
-        
-    },
-    
-
-
-    
     // 14
+    {
+        room3: {
+            text: 'tiene una libreta con ideas, parece que a esta persona le gustaba inventar, una de las ideas es una tecnología que permite implementar recuerdos en una persona',
+            actions: [
+                {text:'continuar', event:'stage=15;openModal();'},
+                //{text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+    },
+
+    // 15
+    {
+        room3: {
+            text: 'abajo de la página aparece número de télefono, crees que eso podría tener alguna relación con lo que te ha ocurrido',
+            actions: [
+                {text:'llamar al teléfono', event:'stage=16;openModal();'},
+                //{text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+    },
+    
+
+
+    
+    // 16
     {
         
         room3: {
             text: 'parece que te atiende la secretaria de la app que instalaste hace unos días',
             actions: [
-                {text:'colgar teléfono', event:'stage=15;openModal()'},
+                {text:'colgar teléfono', event:'stage=17;openModal()'},
             ]
         },
     },
@@ -784,13 +829,27 @@ var stages = [
 
 
     
-    // 15
+    // 17
     {
       
       room3: {
-          text: 'en este momento no sabes quien eres, solo que te han utilizado para matar a una persona inocente, poco a poco empiezas a atar cabos, pero todavía te faltan piezas para completar el rompecabezas',
+          text: 'en este momento no sabes quien eres, solo que te han utilizado para matar a una persona inocente',
           actions: [
-              {text:'continuar', event:'stage=16;openModal();'}
+              {text:'continuar', event:'stage=18;openModal();'}
+              //{text:'salir', event: 'closeModal()'}
+          ]
+      },
+     
+  },
+
+
+    // 18
+    {
+      
+      room3: {
+          text: 'poco a poco empiezas a atar cabos, pero todavía te faltan piezas para completar el rompecabezas',
+          actions: [
+              {text:'continuar', event:'stage=19;openModal();setTimeout(function(){playPhone();}, 1000);'}
               //{text:'salir', event: 'closeModal()'}
           ]
       },
@@ -799,21 +858,19 @@ var stages = [
 
 
 
-
-
-    // 16
+    // 19
     {
         
         room3: {
-            text: 'días más tarde, recibes una llamada de un teléfono oculto',
+            text: 'al cabo de unos días, recibes una llamada de un teléfono oculto',
             actions: [
-                {text:'atender llamada', event:'stage=17;openModal()'},
+                {text:'atender llamada', event:'stopPhone();stage=20;openModal();'},
             ]
         },
     },
 
     
-    // 17
+    // 20
     {
         
         room3: {
@@ -825,49 +882,50 @@ var stages = [
         },
     },
 
-    // 18
+    // 21
     {
         
         room3: {
             text: 'ahora que sabes la verdad ¿qué vas a hacer?',
             actions: [
                 {text:'esto no es mi guerra', response: 'decides dar un paseo por la ciudad, te paras enfrente de un escaparate y ves que tu cara aparece en los telediarios donde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
-                {text:'hacer justicia', event: 'stage=21;openModal();'},
-                {text:'continuar', hidden:true, event: 'stage=19;openModal();'}
+                {text:'hacer justicia', event: 'stage=24;openModal();'},
+                {text:'continuar', hidden:true, event: 'stage=22;openModal();'}
             ]
         },
     },
     
-    // 19
+    // 22
     {
         
         room3: {
-            text: 'te das cuenta que una persona te ha reconocido y sales corriendo al parque, escuchas a la policia que se está acercando',
+            text: 'te das cuenta que una persona te ha reconocido y sales corriendo al parque',
             actions: [
-                {text:'continuar', event: 'stage=20;openModal();playPolice();'},
+                {text:'continuar', event: 'stage=23;openModal();playPolice();'},
             ]
         },
     },
 
-    // 20
+    // 23
     {
             
         room3: {
-            text: 'al verte acorralado y ver que no tienes salida decides suicidarte para poner fin a esta pesadilla',
+            text: 'escuchas a la policia que se está acercando, al no no tener salida y al pensar que nadie te va a creer, decides suicidarte para poner fin a esta pesadilla',
             actions: [
-                {text:'continuar', event: 'stage=21;openModal();'},
+                {text:'continuar', event: 'stage=24;openModal();'},
             ]
         },
     },
 
 
     
-    // 21
+    // 24
     {
         
         room3: {
             text: 'continuará...',
             actions: [
+                {text:'¿Repetir?', event: 'document.location.reload();'},
                 {text:'ver vídeo', event: 'openMovie()'},
                 {text:'compartir historia', event: 'share()'}
             ]
@@ -889,7 +947,13 @@ function modalSetBlack(){
     $('#modal').css('background', 'black');
 }
 
+function playPhone(){
+    $('#sound_phone')[0].play();
+}
 
+function stopPhone(){
+    $('#sound_phone')[0].pause();
+}
 
 function playPolice(){
     $('#sound_police')[0].play();
@@ -897,13 +961,9 @@ function playPolice(){
 
 
 function playCrying(){
-    $('#sound_crying')[0].currentTime = 0;
     $('#sound_crying')[0].play();
 }
 
-function stopCrying(){
-    $('#sound_crying')[0].pause();
-}
 
 
 function playShoot(){
@@ -921,10 +981,10 @@ function playShoot(){
     setTimeout(function(){
 
 
-        typewriteText('acabas de matar a la persona, por fin ya puedes volver a casa y fingir que nada de esto ha pasado');
+        typewriteText('acabas de matar a la persona, puedes volver a casa y fingir que nada de esto ha pasado');
         
         
-        $('#actions').html('<button onclick="stage=10;modalSetBlack();closeModal();">ponerte su ropa</button>');
+        $('#actions').html('<button onclick="stage=11;modalSetBlack();closeModal();">ponerte su ropa</button>');
     
         
     }, 2000)
@@ -940,7 +1000,7 @@ function playEnding(){
 
 function skipEnding(){
     $('#sound_ending')[0].pause();
-    stage = 18;
+    stage = 21;
     openModal();
 }
 
@@ -960,6 +1020,10 @@ function changeNight(){
         $('body').css('background', 'white');
         $('#btn_check').addClass('invert_button');
         $('#percent1').css('border-color', 'red');
+
+        //$('#sound_night')[0].pause();
+        //$('#sound_ambient')[0].play();
+        
     }else{
         is_night = true;
         $('#map_nav').addClass('invert');
@@ -967,6 +1031,9 @@ function changeNight(){
         $('body').css('background', 'black');
         $('#btn_check').removeClass('invert_button');
         $('#percent1').css('border-color', '#00FFFF');
+
+        //$('#sound_ambient')[0].pause();
+        //$('#sound_night')[0].play();
 
     }
 }
@@ -978,17 +1045,18 @@ function changeNight(){
 function checkWork(){
     $('#actions button:last').show();
     if( stage == 2 ){
+        changeNight();
         closeModal();
     }else{
         typewriteText('Todavía no has acabado tu trabajo');
     }
-    $('#modal')
 }
 
 /////////////////////////////////////////////////
 
 function openModal(){
     is_room = true;
+    //$('#sound_select')[0].play();
 
     $('#map').fadeOut('slow', function(){
 
@@ -1000,6 +1068,7 @@ function openModal(){
 
             ///////////$('#sound_door')[0].play();
             $('#sound_ambient')[0].pause();
+            $('#sound_night')[0].pause();
             $('#modal').show();
         }
 
@@ -1052,12 +1121,23 @@ function closeModal(){
     is_room = false;
     $('#modal').hide();
     $('#map').fadeIn('slow');
+    //$('#sound_select')[0].play();
     ////////$('#sound_door')[0].play();
-    $('#sound_ambient')[0].play();
+    //$('#sound_ambient')[0].play();
+
+
+    if( is_night ){
+        $('#sound_night')[0].play();
+    }else{
+        $('#sound_ambient')[0].play();
+    }
 
 }
 
 function typewriteText(text){
+
+
+    //$('#sound_select')[0].play();
 
     current_text = text;
 
@@ -1304,6 +1384,7 @@ function startGame(){
     
 
     $('#sound_ambient').prop('volume', 0.1);
+    //$('#sound_night').prop('volume', 0.1);
 
     $('#game').click(function(){
         if( !ambient_playing && !is_room ){
