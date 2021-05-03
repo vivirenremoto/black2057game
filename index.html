@@ -22,6 +22,28 @@
 
 
 
+    
+    <link rel="prefetch" href="static/bg2.png" />
+    <link rel="prefetch" href="static/bridge3.png" />
+    <link rel="prefetch" href="static/house22.png" />
+    <link rel="prefetch" href="static/park3.png" />
+    <link rel="prefetch" href="static/factory.png" />
+    <link rel="prefetch" href="static/bridge3b.png" />
+    <link rel="prefetch" href="static/house2d.png" />
+    <link rel="prefetch" href="static/parkb.png" />
+    <link rel="prefetch" href="static/factoryb.png" />
+    <link rel="prefetch" href="static/blood.gif" />
+    
+    <link rel="prefetch" href="static/bridge_icon.png" />
+    <link rel="prefetch" href="static/house_icon2.png" />
+    <link rel="prefetch" href="static/tree_icon.png" />
+    <link rel="prefetch" href="static/factory_icon.png" />
+
+    
+    <link rel="prefetch" href="static/normal.png" />
+    <link rel="prefetch" href="static/walking.gif" />
+
+
 
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
@@ -742,7 +764,7 @@ var stages = [
         
 
         room2: {
-            text: 'en ese momento miras a través de un espejo tu cara y te das cuenta que no eres la persona ue pensabas que eras',
+            text: 'en ese momento miras a través de un espejo tu cara y te das cuenta que no eres la persona que pensabas que eras',
             actions: [
 
                 {text:'salir', event: 'stage=13;closeModal();'}
@@ -847,7 +869,7 @@ var stages = [
     {
       
       room3: {
-          text: 'poco a poco empiezas a atar cabos, pero todavía te faltan piezas para completar el rompecabezas',
+          text: 'poco a poco empiezas a atar cabos, pero todavía te faltan piezas del rompecabezas',
           actions: [
               {text:'continuar', event:'stage=19;openModal();setTimeout(function(){playPhone();}, 1000);'}
               //{text:'salir', event: 'closeModal()'}
@@ -862,7 +884,7 @@ var stages = [
     {
         
         room3: {
-            text: 'al cabo de unos días, recibes una llamada de un teléfono oculto',
+            text: 'pasdo unos días, recibes una llamada de un teléfono oculto',
             actions: [
                 {text:'atender llamada', event:'stopPhone();stage=20;openModal();'},
             ]
@@ -888,7 +910,7 @@ var stages = [
         room3: {
             text: 'ahora que sabes la verdad ¿qué vas a hacer?',
             actions: [
-                {text:'esto no es mi guerra', response: 'decides ir a la ciudad, te paras enfrente de un escaparate y ves que tu cara aparece en los telediarios donde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
+                {text:'esto no es mi guerra', response: 'decides ir a la ciudad, te paras enfrente de un escaparate y observas que tu cara aparece en los telediarios dónde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
                 {text:'hacer justicia', event: 'stage=24;openModal();'},
                 {text:'continuar', hidden:true, event: 'stage=22;openModal();'}
             ]
@@ -899,7 +921,7 @@ var stages = [
     {
         
         room3: {
-            text: 'te das cuenta que una persona te ha reconocido y sales corriendo al parque',
+            text: 'te das cuenta que una persona te ha reconocido y sales corriendo hacia el parque',
             actions: [
                 {text:'continuar', event: 'stage=23;openModal();playPolice();'},
             ]
