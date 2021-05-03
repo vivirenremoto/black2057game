@@ -4,10 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black 2057 Game</title>
+    <title>Black 2057 - El juego</title>
+
+
 
     
+    <link rel="prefetch" href="static/mp3/ambient.mp3" />
+    <!--<link rel="prefetch" href="static/mp3/door.mp3" />-->
+    <link rel="prefetch" href="static/mp3/ending.mp3" />
+    <link rel="prefetch" href="static/mp3/shoot.mp3" />
+    <link rel="prefetch" href="static/mp3/walk.mp3" />
+
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+
+    <meta property="og:image" content="https://vivirenremoto.github.io/black2057game/static/social.png">
+    <meta property="og:image:secure_url"
+        content="https://vivirenremoto.github.io/black2057game/static/social.png">
+    <meta property="og:image:alt" content="Black 2057 - El juego">
+    <meta property="og:image:type" content="image/png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Black 2057 - El juego">
+    <meta name="twitter:image" content="https://vivirenremoto.github.io/black2057game/static/social.png">
+
 
 </head>
 <body>
@@ -291,8 +313,18 @@ button{
     <source src="static/mp3/walk.mp3" type="audio/mp3">
 </audio>
 
+<!--
 <audio id="sound_door" >
     <source src="static/mp3/door.mp3" type="audio/mp3">
+</audio>
+-->
+
+<audio id="sound_ending" >
+    <source src="static/mp3/ending.mp3" type="audio/mp3">
+</audio>
+
+<audio id="sound_shoot" >
+    <source src="static/mp3/shoot.mp3" type="audio/mp3">
 </audio>
 
 
@@ -408,12 +440,11 @@ var stages = [
         },
         
         room4: {
-            text: 'actualmente muchos empleos han desaparecido, las máquinas han reemplazado a las personas, por suerte te dedicas a mantenerlas para que funcionen las 24 horas del día',
+            text: 'actualmente muchos empleos han dejado de existir, las máquinas han reemplazado a las personas, por suerte tu trabajo es mantenerlas para que funcionen las 24 horas del día',
             actions: [
-                {text:'hablar con un compañero', response: 'hey Alex, acabo de descubrir una aplicación que te permite comunicarte con las personas que han muerto'},
-                {text:'arreglar maquina', event: 'stage=2;changeNight();', response: 'has arreglado la máquina, ya has terminado tu jornada y te puedes ir'},
-                {text:'atender llamada', response: 'te ha llamado un viejo amigo de la infancia, te cuenta que ha fallecido tu primer amor al que nunca tuviste el valor de declararte'},
-                {text:'salir', event: 'checkWork()'}
+                {text:'hablar con un compañero', response: 'hey Alex, acabo de descubrir una aplicación que te permite comunicarte con las personas que han muerto', event: 'showButton(1);showButton(2)'},
+                {text:'arreglar maquina', hidden: true, event: 'stage=2;changeNight();', response: 'has arreglado la máquina, has terminado tu jornada laboral, ya te puedes ir a casa'},
+                {text:'salir', hidden: true, event: 'checkWork()'}
             ]
         }
     },
@@ -433,7 +464,8 @@ var stages = [
             actions: [
                 {text:'cenar', response: 'has cocinado una lasaña vegetal y la verdad es que me ha salido muy rica'},
                 {text:'acostar a la niña', response: 'buenas noches papi, te quiero papi'},
-                {text:'instalar app', event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();changeNight();'},
+                {text:'atender llamada', response: 'te llama un viejo amigo de la infancia, te cuenta que ha fallecido tu primer amor al que nunca tuviste el valor de declararte', event: 'showButton(3)'},
+                {text:'ir a dormir', hidden: true, event: 'stage=3;changeRoom(1);updatePosition();current_room=1;openModal();changeNight();'},
             ]
         },
         room3: {
@@ -450,97 +482,99 @@ var stages = [
             ]
         }
     },
+
+
+
 
 
     // 3
     {
         
         room1: {
-            text: 'has instalado la app que te ha comentado tu compañero, un hacker ha conseguido conectarse en tu cabeza y pierdes el conocimiento, al día siguiente despiertas bajo un puente, no entiendes nada y solo quieres volver a casa',
+            text: 'en la cama reflexionas si tu primer amor sentía lo mismo por ti, tu cabeza click y aunque esto te parece una tontería, piensas sobre la app que te había hablado tu compañero',
             actions: [
-                {text:'leer terminos de la app', response: 'al final sale en letra pequeña que la empresa puede entrar de forma remota en la mente de una persona que use la app'},
-                {text:'mirar mis bolsillos', response: 'tienes un movil y una pistola'},
+                {text:'instalar app', event: 'stage=4;openModal()'}
+            ]
+        },
+    },
+
+    // 4
+    {
+        
+        room1: {
+            text: 'Días atrás un hacker consiguió infiltrarse en el sistema, al abrir la app el hacker se coencta en tu mente y pierdes el conocimiento',
+            actions: [
+                {text:'continuar', event: 'stage=5;openModal()'}
+            ]
+        },
+    },
+
+
+    
+
+
+    // 5
+    {
+        
+        room1: {
+            text: 'al día siguiente despiertas bajo un puente, en ese momento no entiendes nada y solo quieres volver a casa',
+            actions: [
+                {text:'mirar bolsillos', response: 'tienes un movil y una pistola'},
+                {text:'leer terminos de la app', response: 'al final de los términos con letra pequeña dice que la empresa puede entrar de forma remota en la mente de una persona que use la app'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
-            text: 'miras por la ventana y ves una persona que se parece a ti, quizás deberías ir al parque a tomar el aire...',
+            text: 'antes de llegar a casa has visto a una persona que se parece físicamente a ti, lo has seguido hasta la puerta',
             actions: [
+                
+                {text:'mirar por la ventana', response: 'parece que esa persona ha ocupado tu lugar, nadie se ha dado cuenta que esa persona no eres tu, quizás deberías ir al parque a tomar el aire...', event:'showButton(1)'},
+                {text:'salir', hidden: true, event: 'stage=6;closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'nada que hacer por aquí, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí, deberías volver a casa',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+
+
+    // 7
+    {
+        
+        room1: {
+            text: 'nada por hacer aquí, quizás deberías ir al parque a tomar el aire...',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada por hacer aquí, quizás deberías ir al parque a tomar el aire...',
+            actions: [
+                
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room3: {
             text: 'quieres recuperar tu vida, asi que decides planear el plan para deshacerte de esta persona y recuperar tu vida',
             actions: [
-                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo a casa lo mataras aqui en el parque', event:'stage=4;'},
-                {text:'salir', event: 'closeModal()'}
+                {text:'organizar plan', response: 'mañana por la noche cuando vuelva del trabajo lo mataras aquí en el parque', event:'stage=7;showButton(1)'},
+                {text:'salir', hidden: true, event: 'closeModal()'}
             ]
         },
         
         room4: {
-            text: 'ya es tarde, deberías volver a casa',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        }
-    },
-
-    // 4
-    
-    {
-        
-        room1: {
-            text: 'nada que hacer por aquí, deberías ir a la fabrica',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room2: {
-            text: 'nada que hacer por aquí, deberías ir a la fabrica',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room3: {
-            text: 'nada que hacer por aquí, deberías ir a la fabrica',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        
-        room4: {
-            text: 'acabas de encontrar la persona que ha robado tu vida, ahora va hacia el parque',
-            actions: [
-                {text:'salir', event: 'stage=5;closeModal()'}
-            ]
-        }
-    },
-
-    // 5
-    {
-        
-        room1: {
-            text: 'nada que hacer por aquí, deberías ir al parque',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room2: {
-            text: 'nada que hacer por aquí, deberías ir al parque',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room3: {
-            text: 'acabas de encontrar la persona',
-            actions: [
-                {text:'matar', response: 'has matado la persona que te ha robado tu vida ya puedes volver a casa y fingir que no ha pasado nada', event:'stage=6;changeNight();'},
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        
-        room4: {
-            text: 'nada que hacer por aquí, deberías ir al parque',
+            text: 'nada por hacer aquí, quizás deberías ir al parque a tomar el aire...',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
@@ -548,124 +582,306 @@ var stages = [
     },
 
 
-    // 6
-    {
-        
-        room1: {
-            text: 'nada que hacer por aquí, deberías volver a casa',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room2: {
-            text: 'acabas de llegar a casa pero algo no va como esperabas... tu familia no te reconoce',
-            actions: [
-                {text:'hablar con tu mujer', response: 'no le hagas daño a mi hija por favor'},
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        room3: {
-            text: 'aqui esta el cuerpo del cadaver',
-            actions: [
-                {text:'investigar cuerpo', response: 'parece que tiene una libreta con ideas', event:'stage=7;openModal();'},
-                {text:'salir', event: 'closeModal()'}
-            ]
-        },
-        
-        room4: {
-            text: 'nada que hacer por aquí, deberías volver a casa',
-            actions: [
-                {text:'salir', event: 'closeModal()'}
-            ]
-        }
-    },
 
 
     
+
+
     // 7
+    
     {
-      
-        room3: {
-            text: 'aparece un número de teléfono',
+        
+        room1: {
+            text: 'nada que hacer por aquí, deberías ir a la fábrica',
             actions: [
-                {text:'llamar', response: 'te atiente la secretaria de la app y cuelgas enseguida', event:'stage=8;'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
-       
+        room2: {
+            text: 'nada que hacer por aquí, deberías ir a la fábrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'nada que hacer por aquí, deberías ir a la fábrica',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'esperas hasta la noche para seguir a la persona que buscas, ahora acaba de salir deberías seguirlo hasta el parque',
+            actions: [
+                {text:'salir', event: 'stage=8;closeModal();changeNight();'}
+            ]
+        }
     },
-
 
     // 8
     {
         
         room1: {
-            text: 'nada que hacer por aquí',
+            text: 'nada que hacer por aquí, deberías ir al parque',
             actions: [
-                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
-            text: 'nada que hacer por aquí',
+            text: 'nada que hacer por aquí, deberías ir al parque',
             actions: [
-                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room3: {
-            text: 'en la página encuentras un número de telefono',
+            text: 'acabas de seguir hasta el parque a la persona que ha robado tu vida',
             actions: [
-                {text:'llamar', response: 'llamas y te responde la secretaria de la aplicación que instalaste'},
-                {text:'salir', event: 'closeModal()'}
+                {text:'disparar', event:'playShoot();'},
+                //{text:'salir', event: 'closeModal()'}
             ]
         },
         
         room4: {
-            text: 'nada que hacer por aquí',
+            text: 'nada que hacer por aquí, deberías ir al parque',
             actions: [
-                {text:'mirar móvil', response: 'recibes una llamada', event:'stage=9;openModal()'},
                 {text:'salir', event: 'closeModal()'}
             ]
         }
     },
 
-    
+
     // 9
     {
         
         room1: {
-            text: 'te llama la persona que has matado hace unos días',
+            text: 'nada que hacer por aquí, deberías volver a casa',
             actions: [
-                {text:'dejar esta guerra', response: 'te suicidas'},
-                {text:'luchar contra la empresa', response: 'continuará.....'},
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
-            text: 'nada que hacer por aquí',
+            text: 'acabas de llegar a casa pero algo no va como esperabas... tu família no te reconoce',
             actions: [
-                {text:'salir', event: 'closeModal()'}
+                {text:'hablar con tu mujer', response: 'no le hagas daño a mi hija por favor'},
+                {text:'hablar con tu hija', response: 'no le conozco señor, no haga daño a mi mami'},
+                {text:'salir', event: 'stage=10;closeModal()'}
             ]
         },
         room3: {
-            text: 'nada que hacer por aquí',
+            text: 'nada que hacer por aquí, deberías volver a casa',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         
         room4: {
-            text: 'nada que hacer por aquí',
+            text: 'nada que hacer por aquí, deberías volver a casa',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
         }
     },
+
+
+
+    // 10
+    {
+        
+        room1: {
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room2: {
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        room3: {
+            text: 'aquí en el parque esta el cuerpo de la persona que has asesinado',
+            actions: [
+                {text:'revisar cuerpo', response: 'tiene una libreta con ideas, parece que le gusta inventar, una de las ideas es una tecnología que permite transferir recuerdos en personas', event:'stage=11;openModal();'},
+                {text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+        room4: {
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            actions: [
+                {text:'salir', event: 'closeModal()'}
+            ]
+        }
+    },
+
+
+
+    
+    // 11
+    {
+        room3: {
+            text: 'aparece un número de télefono abajo y crees que eso podría tener alguna relación con lo que te ha pasado',
+            actions: [
+                {text:'continuar', event:'stage=12;openModal();'},
+                //{text:'salir', event: 'closeModal()'}
+            ]
+        },
+        
+    },
+
+
+
+
+
+    
+    // 12
+    {
+      
+        room3: {
+            text: 'aparece un número de teléfono al final de la página, pero no aparece ningún nombre que te ayude a identificarlo',
+            actions: [
+                {text:'llamar al teléfono', event:'stage=13;openModal();'}
+                //{text:'salir', event: 'closeModal()'}
+            ]
+        },
+       
+    },
+    
+    // 13
+    {
+        
+        room3: {
+            text: 'parece que te atiente la secretaria de la app y cuelgas enseguida, empiezas a atar cabos de lo que puede pasar, pero todavía te faltan piezas para completar el rompecabezas',
+            actions: [
+                {text:'continuar', event:'stage=14;openModal()'},
+            ]
+        },
+    },
+
+
+    // 14
+    {
+        
+        room3: {
+            text: 'días más tarde, recibes una llamada de un teléfono oculto',
+            actions: [
+                {text:'atender llamada', event:'stage=15;openModal()'},
+            ]
+        },
+    },
+
+    
+    // 15
+    {
+        
+        room3: {
+            text: 'la voz te resulta familiar, te das cuenta que es la persona que mataste, pero no parece que sea una persona detrás de la línea, sino más bien un mensaje grabado',
+            actions: [
+                {text:'escuchar mensaje', event: 'playEnding();'},
+                {text:'saltar', hidden:true, event: 'skipEnding()'},
+            ]
+        },
+    },
+
+    // 16
+    {
+        
+        room3: {
+            text: 'ahora que sabes la verdad ¿que quieres hacer?',
+            actions: [
+                {text:'esto no es mi guerra', response: 'decides dar una vuelta por la ciudad, te paras enfrente un escaparate con televisores y ves que tu cara aparece en las noticias donde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
+                {text:'hacer justicia', event: 'stage=18;openModal();'},
+                {text:'continuar', hidden:true, event: 'stage=17;openModal();'}
+            ]
+        },
+    },
+    
+    // 17
+    {
+        
+        room3: {
+            text: 'te das cuenta que una persona te reconoce y sales corriendo al parque, escuchas a la policia que se está acercando, al verte acorralado y ver que no tienes salida decides suicidarte para poner fin a esta pesadilla',
+            actions: [
+                {text:'continuar', event: 'stage=18;openModal();'},
+            ]
+        },
+    },
+
+    
+    // 18
+    {
+        
+        room3: {
+            text: '¿continuará?',
+            actions: [
+                {text:'ver vídeo', event: 'openMovie()'},
+                {text:'compartir historia', event: 'share()'}
+            ]
+        },
+    }
+
 ];
+
+function openMovie(){
+    window.open('https://www.youtube.com/watch?v=kKkp-Xlr8Os&ab_channel=vivirenremoto');
+}
+
+function share(){
+    var share_url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + '&tw_p=tweetbutton&url=' + document.location.href;
+    window.open(share_url);
+}
+
+function modalSetBlack(){
+    $('#modal').css('background', 'black');
+}
+
+function playShoot(){
+
+
+    
+    $('#text').html('');
+
+    $('#sound_shoot')[0].play();
+
+    $('#modal').css('background', "black url('static/blood.gif') no-repeat top center");
+
+    $('#actions').html('');
+
+
+
+    setTimeout(function(){
+
+
+        typewriteText('acabas de matar a la persona que se ha hecho pasar por ti, ya puedes volver a casa y fingir que esto no ha pasado');
+        
+        
+        $('#actions').html('<button onclick="stage=9;modalSetBlack();closeModal();">salir</button>');
+    
+        
+    }, 2000)
+}
+
+function playEnding(){
+    $('#sound_ending')[0].play();
+
+    setTimeout(function(){
+        showButton(1);
+    }, 1000) //1:32
+}
+
+function skipEnding(){
+    $('#sound_ending')[0].pause();
+    stage = 16;
+    openModal();
+}
 
 function hideButton(index){
     $('#modal button:eq(' + index + ')').hide();
+}
+
+function showButton(index){
+    $('#modal button:eq(' + index + ')').show();
 }
 
 function changeNight(){
@@ -734,11 +950,21 @@ function openModal(){
                 html_actions += 'typewriteText(\'' + current_stage.actions[i].response + '\');';
             }
 
-            html_actions += '">';
+            html_actions += '"';
+
+            if( current_stage.actions[i].hidden ){
+
+                html_actions += ' style="display:none"';
+            }
+
             
+            html_actions += '>';
+            
+            /*
             if( !is_mobile ){
                 html_actions += (i+1) + '. ';
             }
+            */
 
             html_actions += current_stage.actions[i].text + '</button>';
         }
@@ -759,6 +985,7 @@ function closeModal(){
     $('#modal').hide();
     $('#map').fadeIn('slow');
     ////////$('#sound_door')[0].play();
+    $('#sound_ambient')[0].play();
 
 }
 
@@ -1075,13 +1302,19 @@ function startGame(){
 
             if (e.keyCode == 13) { //intro
                 $('#modal button:last').click();
-            }else if (e.keyCode == 49) { //1
+            }
+            
+            /*
+            else if (e.keyCode == 49) { //1
                 $('#modal button:eq(0)').click();
             }else if (e.keyCode == 50) { //2
                 $('#modal button:eq(1)').click();
             }else if (e.keyCode == 51) { //3
                 $('#modal button:eq(2)').click();
+            }else if (e.keyCode == 52) { //4
+                $('#modal button:eq(3)').click();
             }
+            */
 
         }else{
 
