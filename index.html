@@ -581,7 +581,7 @@ var stages = [
             text: 'antes de llegar a casa has visto a una persona que se parece físicamente a ti, lo has seguido hasta la puerta de tu casa',
             actions: [
                 
-                {text:'mirar por la ventana', response: 'parece que esa persona ha ocupado tu lugar, nadie se ha dado cuenta que realmente no eres tu, estás confundido, quizás deberías ir al parque a tomar el aire...', event:'showButton(1)'},
+                {text:'mirar por la ventana', response: 'parece que nadie se ha dado cuenta que esa persona realmente no eres tu, estás confundido, quizás deberías ir al parque a tomar el aire...', event:'showButton(1)'},
                 {text:'salir', hidden: true, event: 'stage=8;closeModal()'}
             ]
         },
@@ -742,7 +742,7 @@ var stages = [
         
 
         room2: {
-            text: 'en ese momento miras a través de un espejo tu cara y te das cuenta que no eres la persona ue pensaba que eras',
+            text: 'en ese momento miras a través de un espejo tu cara y te das cuenta que no eres la persona ue pensabas que eras',
             actions: [
 
                 {text:'salir', event: 'stage=13;closeModal();'}
@@ -758,13 +758,13 @@ var stages = [
     {
         
         room1: {
-            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo por si encuentras alguna pista',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
         },
         room2: {
-            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo por si encuentras alguna pista',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
@@ -778,7 +778,7 @@ var stages = [
         },
         
         room4: {
-            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo',
+            text: 'nada que hacer por aquí, deberías ir al parque a revisar el cuerpo por si encuentras alguna pista',
             actions: [
                 {text:'salir', event: 'closeModal()'}
             ]
@@ -791,7 +791,7 @@ var stages = [
     // 14
     {
         room3: {
-            text: 'tiene una libreta con ideas, parece que a esta persona le gustaba inventar, una de las ideas es una tecnología que permite implementar recuerdos en una persona',
+            text: 'tiene una libreta con ideas, parece que le gustaba inventar, una de las ideas es una tecnología que permite implementar recuerdos en una persona',
             actions: [
                 {text:'continuar', event:'stage=15;openModal();'},
                 //{text:'salir', event: 'closeModal()'}
@@ -803,7 +803,7 @@ var stages = [
     // 15
     {
         room3: {
-            text: 'abajo de la página aparece número de télefono, crees que eso podría tener alguna relación con lo que te ha ocurrido',
+            text: 'debajo de esa página aparece un número de télefono, crees que podría tener alguna relación con lo que te ha ocurrido',
             actions: [
                 {text:'llamar al teléfono', event:'stage=16;openModal();'},
                 //{text:'salir', event: 'closeModal()'}
@@ -819,7 +819,7 @@ var stages = [
     {
         
         room3: {
-            text: 'parece que te atiende la secretaria de la app que instalaste hace unos días',
+            text: 'te atiende la secretaria de la app que instalaste hace unos días',
             actions: [
                 {text:'colgar teléfono', event:'stage=17;openModal()'},
             ]
@@ -833,7 +833,7 @@ var stages = [
     {
       
       room3: {
-          text: 'en este momento no sabes quien eres, solo que te han utilizado para matar a una persona inocente',
+          text: 'en este momento no sabes quién eres, solo que te han utilizado para matar a una persona inocente',
           actions: [
               {text:'continuar', event:'stage=18;openModal();'}
               //{text:'salir', event: 'closeModal()'}
@@ -874,7 +874,7 @@ var stages = [
     {
         
         room3: {
-            text: 'la voz te resulta familiar, te das cuenta que es la persona que mataste, pero no parece que sea una persona quién está detrás de la línea, sino más bien un mensaje grabado',
+            text: 'la voz te resulta familiar, te das cuenta que es de la persona que mataste, pero no parece que sea una persona detrás de la línea sino más bien un mensaje grabado',
             actions: [
                 {text:'escuchar mensaje', event: 'playEnding();'},
                 {text:'saltar', hidden:true, event: 'skipEnding()'},
@@ -888,7 +888,7 @@ var stages = [
         room3: {
             text: 'ahora que sabes la verdad ¿qué vas a hacer?',
             actions: [
-                {text:'esto no es mi guerra', response: 'decides dar un paseo por la ciudad, te paras enfrente de un escaparate y ves que tu cara aparece en los telediarios donde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
+                {text:'esto no es mi guerra', response: 'decides ir a la ciudad, te paras enfrente de un escaparate y ves que tu cara aparece en los telediarios donde te acusan de asesinato', event: 'hideButton(1);showButton(2)'},
                 {text:'hacer justicia', event: 'stage=24;openModal();'},
                 {text:'continuar', hidden:true, event: 'stage=22;openModal();'}
             ]
@@ -910,7 +910,7 @@ var stages = [
     {
             
         room3: {
-            text: 'escuchas a la policia que se está acercando, al no no tener salida y al pensar que nadie te va a creer, decides suicidarte para poner fin a esta pesadilla',
+            text: 'escuchas a la policia que se está acercando, al verte acorralado y pensar que nadie te va a creer, decides quitarte la vida para poner fin a esta pesadilla',
             actions: [
                 {text:'continuar', event: 'stage=24;openModal();'},
             ]
@@ -981,7 +981,7 @@ function playShoot(){
     setTimeout(function(){
 
 
-        typewriteText('acabas de matar a la persona, puedes volver a casa y fingir que nada de esto ha pasado');
+        typewriteText('acabas de matarlo, puedes volver a casa y fingir que nada de esto ha pasado');
         
         
         $('#actions').html('<button onclick="stage=11;modalSetBlack();closeModal();">ponerte su ropa</button>');
