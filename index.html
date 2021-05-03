@@ -110,7 +110,7 @@ button{
 }
 
 .building_house{
-    background-image:url('static/house2.png')
+    background-image:url('static/house22.png')
 }
 
 .building_park{
@@ -128,7 +128,7 @@ button{
 }
 
 .invert .building_house{
-    background-image:url('static/house2b.png')
+    background-image:url('static/house2d.png')
 }
 
 .invert .building_park{
@@ -413,7 +413,7 @@ var stages = [
                 {text:'hablar con un compañero', response: 'hey Alex, acabo de descubrir una aplicación que te permite comunicarte con las personas que han muerto'},
                 {text:'arreglar maquina', event: 'stage=2;changeNight();', response: 'has arreglado la máquina, ya has terminado tu jornada y te puedes ir'},
                 {text:'atender llamada', response: 'te ha llamado un viejo amigo de la infancia, te cuenta que ha fallecido tu primer amor al que nunca tuviste el valor de declararte'},
-                {text:'salir', event: 'closeModal()'}
+                {text:'salir', event: 'checkWork()'}
             ]
         }
     },
@@ -687,6 +687,19 @@ function changeNight(){
     }
 }
 
+
+
+////////////////////////////////////////////////
+
+function checkWork(){
+    $('#actions button:last').show();
+    if( stage == 2 ){
+        closeModal();
+    }else{
+        typewriteText('Todavía no has acabado tu trabajo');
+    }
+    $('#modal')
+}
 
 /////////////////////////////////////////////////
 
