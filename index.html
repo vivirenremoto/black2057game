@@ -295,7 +295,7 @@ button{
             
         </div>
 
-        <div id="player" class="player_normal" style="margin-bottom:-2px;position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;"></div>
+        <div id="player" class="player_normal" style="margin-bottom:-2px;position:fixed;left:50%;background-size:contain;width:150px;height:207px;bottom:0;margin-left:-75px;background-repeat:no-repeat;background-position:left bottom;"></div>
         
 
 
@@ -392,9 +392,8 @@ integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="ano
 var timer_text;
 var letter_index;
 var screen_width = $(document).width();
-var screen_height = $(document).height();
 var screen_width_half = screen_width / 2;
-var scroll_x = 0;//-200;
+var scroll_x = 0;
 var cursor_x;
 var timer_walking;
 var max_width = 5000;
@@ -431,7 +430,6 @@ var zones_rooms = [
 
 
 if( is_mobile ){
-    //max_width = screen_width * 6;
 
 
     
@@ -494,7 +492,7 @@ var stages = [
             text: 'actualmente muchos empleos han dejado de existir, las máquinas han reemplazado a las personas, tu trabajo consiste en mantenerlas para que funcionen las 24 horas',
             actions: [
                 {text:'hablar con un compañero', response: 'Tu compañero te habla de una nueva app que te permite comunicarte con las personas que han muerto', event: 'showButton(1);showButton(2)'},
-                {text:'arreglar maquina', hidden: true, event: 'stage=2;', response: 'has arreglado la máquina y terminado tu jornada laboral por hoy, ya puedes volver a casa'},
+                {text:'arreglar maquina', hidden: true, event: 'stage=2;', response: 'has arreglado la máquina y terminado tu jornada laboral, ya puedes volver a casa'},
                 {text:'salir', hidden: true, event: 'checkWork()'}
             ]
         }
@@ -600,7 +598,7 @@ var stages = [
             ]
         },
         room2: {
-            text: 'antes de llegar a casa has visto a una persona que se parece físicamente a ti, lo has seguido hasta la puerta de tu casa',
+            text: 'antes de llegar a casa has visto a una persona que se parece físicamente a ti, lo has seguido hasta la puerta de casa',
             actions: [
                 
                 {text:'mirar por la ventana', response: 'parece que nadie se ha dado cuenta que esa persona realmente no eres tu, estás confundido, quizás deberías ir al parque a tomar el aire...', event:'showButton(1)'},
@@ -884,7 +882,7 @@ var stages = [
     {
         
         room3: {
-            text: 'pasdo unos días, recibes una llamada de un teléfono oculto',
+            text: 'unos días más tarde, recibes una llamada de un teléfono oculto',
             actions: [
                 {text:'atender llamada', event:'stopPhone();stage=20;openModal();'},
             ]
@@ -1405,7 +1403,7 @@ function startGame(){
 
     
     
-    $('#map').css('width', max_width_aux );//.css('height', screen_height);
+    $('#map').css('width', max_width_aux );
     $('#map table').css('width', max_width).css('margin','auto');
     
     
@@ -1527,6 +1525,12 @@ function startGame(){
         }
     });
     */
+
+    $(window).resize(function(){
+        screen_width = $(document).width();
+        screen_width_half = screen_width / 2;
+        is_mobile = screen_width < 800;
+    });
 }
 
 startGame();
