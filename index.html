@@ -1203,7 +1203,10 @@ function moveLeft(){
 
     $('#player').addClass('flip-horizontal');
 
-    if( percent <= 0 ) return;
+    if( percent <= 0 ){
+        $('#player').addClass('player_normal').removeClass('player_walking');
+        return;
+    }
 
     scroll_x += speed;
     updatePosition();
@@ -1219,7 +1222,10 @@ function moveRight(){
     }
     */
 
-    if( percent >= 100 ) return;
+    if( percent >= 100 ){
+        $('#player').addClass('player_normal').removeClass('player_walking');
+        return;
+    }
 
     
     //if( (scroll_x*-1) >= (max_width-room_width) ) return;
