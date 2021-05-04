@@ -25,13 +25,13 @@
     
     <link rel="prefetch" href="static/bg2.png" />
     <link rel="prefetch" href="static/bridge3.png" />
-    <link rel="prefetch" href="static/house22.png" />
-    <link rel="prefetch" href="static/park3.png" />
-    <link rel="prefetch" href="static/factory.png" />
+    <link rel="prefetch" href="static/house3.png" />
+    <link rel="prefetch" href="static/park4.png" />
+    <link rel="prefetch" href="static/factory2.png" />
     <link rel="prefetch" href="static/bridge3b.png" />
-    <link rel="prefetch" href="static/house2d.png" />
-    <link rel="prefetch" href="static/parkb.png" />
-    <link rel="prefetch" href="static/factoryb.png" />
+    <link rel="prefetch" href="static/house3c.png" />
+    <link rel="prefetch" href="static/park4b.png" />
+    <link rel="prefetch" href="static/factory2b.png" />
     <link rel="prefetch" href="static/blood.gif" />
     
     <link rel="prefetch" href="static/bridge_icon.png" />
@@ -159,15 +159,15 @@ button{
 }
 
 .building_house{
-    background-image:url('static/house22.png')
+    background-image:url('static/house3.png')
 }
 
 .building_park{
-    background-image:url('static/park3.png')
+    background-image:url('static/park4.png')
 }
 
 .building_factory{
-    background-image:url('static/factory.png')
+    background-image:url('static/factory2.png')
 }
 
 
@@ -177,15 +177,15 @@ button{
 }
 
 .invert .building_house{
-    background-image:url('static/house2d.png')
+    background-image:url('static/house3c.png')
 }
 
 .invert .building_park{
-    background-image:url('static/parkb.png')
+    background-image:url('static/park4b.png')
 }
 
 .invert .building_factory{
-    background-image:url('static/factoryb.png')
+    background-image:url('static/factory2b.png')
 }
 
 
@@ -492,7 +492,7 @@ var stages = [
             text: 'actualmente muchos empleos han dejado de existir, las máquinas han reemplazado a las personas, tu trabajo consiste en mantenerlas para que funcionen las 24 horas',
             actions: [
                 {text:'hablar con un compañero', response: 'Tu compañero te habla de una nueva app que te permite comunicarte con las personas que han muerto', event: 'showButton(1);showButton(2)'},
-                {text:'arreglar maquina', hidden: true, event: 'stage=2;', response: 'has arreglado la máquina y terminado tu jornada laboral, ya puedes volver a casa'},
+                {text:'arreglar máquina', hidden: true, event: 'stage=2;', response: 'has arreglado la máquina y terminado tu jornada laboral, ya puedes volver a casa'},
                 {text:'salir', hidden: true, event: 'checkWork()'}
             ]
         }
